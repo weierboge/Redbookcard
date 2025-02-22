@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --tech-blue: #6366f1;
+            --tech-purple: #8b5cf6;
+            --neon-green: #10b981;
+            --cyber-pink: #ec4899;
+            --neon-cyan: #00f3ff;
+            --glow-yellow: #ffd700;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 10px;
+            min-height: 100vh;
+            font-family: 'Helvetica Neue', system-ui;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+
+        .tool-title {
+            color: white;
+            text-align: center;
+            margin: 20px 0 30px;
+            font-size: 2.8em;
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.7);
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        .tool-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, 
+                rgba(99, 102, 241, 0) 0%,
+                #6366f1 50%,
+                rgba(99, 102, 241, 0) 100%
+            );
+        }
+
+        .input-wrapper {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, 
+                #6366f1, 
+                #8b5cf6, 
+                #ec4899
+            );
+            padding: 3px;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+        }
+
+        #content-editor {
+            width: calc(100% - 40px);
+            height: 120px;
+            padding: 20px;
+            border: none;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s;
+            color: #1e293b;  /* 添加文本颜色 */
+        }
+
+        #content-editor::placeholder {
+            color: #94a3b8;  /* 添加占位符文本颜色 */
+            opacity: 0.8;    /* 调整透明度 */
+        }
+
+        #content-editor:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--tech-blue);
+            border-radius: 4px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .style-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .style-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            background: white;
+        }
+
+        .font-control {
+            background: rgba(255,255,255,0.9);
+            padding: 5px 10px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            justify-content: center;  /* 修改这里，从 flex-start 改为 center */
+            padding: 0 20px;
+            margin: 0 auto 40px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .card-container {
+                justify-content: center;
+                padding: 0 10px;
+            }
+            
+            .input-wrapper {
+                width: 90%;
+            }
+            
+            .toolbar {
+                flex-wrap: wrap;
+                padding: 0 10px;
+            }
+        }
+
+        .card {
+            width: 280px;
+            height: 373px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 3px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            background-clip: padding-box;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 3px solid transparent;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            margin: -3px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            height: 367px;
+            border-radius: 22px;
+            padding: 20px;
+            font-size: 16px;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .neon {
+            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
+            animation: neon-glow 2s linear infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes neon-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .neon .card-content {
+            background: rgba(16,16,32,0.95);
+        }
+
+        .cyberpunk {
+            background: linear-gradient(45deg, var(--cyber-pink), var(--tech-blue));
+        }
+
+        .cyberpunk .card-content {
+            background: rgba(0,0,0,0.95);
+        }
+
+        .glow {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+
+        .glow .card-content {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .gradient {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+        }
+
+        .gradient .card-content {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .dashed {
+            background: repeating-linear-gradient(
+                45deg,
+                var(--glow-yellow),
+                var(--glow-yellow) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            animation: border-scroll 4s linear infinite;
+        }
+
+        @keyframes border-scroll {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 0; }
+        }
+
+        .dashed .card-content {
+            background: rgba(0,0,0,0.9);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            margin-right: 12px;
+            background: linear-gradient(45deg, var(--tech-blue), var(--tech-purple));
+        }
+
+        .icon {
+            font-size: 22px;
+            color: white;
+        }
+
+        h2 {
+            color: #1e293b;
+            margin: 0;
+            font-size: 1.6em;
+            font-weight: 700;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, var(--tech-blue) 0%, var(--tech-purple) 100%);
+            margin: 15px 0;
+            border-radius: 2px;
+        }
+
+        .content-item {
+            height: calc(100% - 110px);
+            overflow: hidden;
+            padding: 5px 0;
+        }
+
+        .text-content {
+            color: #334155;
+            line-height: 1.6;
+            font-size: 16px;
+            font-family: 'Helvetica Neue', system-ui;
+        }
+
+        .text-content p {
+            margin: 0.8em 0;
+        }
+
+        .text-content strong {
+            color: var(--tech-blue);
+        }
+
+        .download-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            z-index: 3;
+        }
+
+        .download-all-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .download-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            background: white;
+        }
+
+        .neon h2 { color: #e0e0ff; }
+        .neon .text-content { color: #e0e0ff; }
+        .cyberpunk h2,
+        .cyberpunk .text-content { color: white; }
+        .dashed h2 { color: var(--glow-yellow); }
+        .dashed .text-content { color: white; }
+    </style>
+</head>
+<body>
+    <h1 class="tool-title">小红书图文卡片生成器</h1>
+    <div class="input-wrapper">
+        <textarea id="content-editor" placeholder="输入Markdown或普通文本..."></textarea>
+    </div>
+
+    <div class="toolbar">
+        <div class="font-control">
+            <button class="style-btn" onclick="adjustFontSize(-2)">A-</button>
+            <button class="style-btn" onclick="adjustFontSize(2)">A+</button>
+        </div>
+        <button class="style-btn" onclick="switchStyle('default')">默认</button>
+        <button class="style-btn" onclick="switchStyle('cyberpunk')">赛博</button>
+        <button class="style-btn" onclick="switchStyle('neon')">霓虹</button>
+        <button class="style-btn" onclick="switchStyle('glow')">流光</button>
+        <button class="style-btn" onclick="switchStyle('gradient')">渐变</button>
+        <button class="style-btn" onclick="switchStyle('dashed')">脉冲</button>
+        <button class="download-all-btn" onclick="downloadAllCards()">
+            <i class="fas fa-download"></i> 下载全部卡片
+        </button>
+    </div>
+
+    <div class="card-container"></div>
+
+    <script>
+        let currentFontSize = 16;
+        const cardContainer = document.querySelector('.card-container');
+        const maxCardHeight = 373;
+        let currentStyle = 'default';
+
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            highlight: code => code
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const editor = document.getElementById('content-editor');
+            const defaultText = `# 💥 小红书卡片生成器使用指南
+**支持格式+实操案例演示**
+本工具支持普通文本和Markdown文本一键转换为小红书卡片。
+大家可以用空行和字号调节自行调节卡片内容分布。
+
+##  爆款小红书结构示例 👀
+**标题公式**：  
+- 痛点+数字："90%人不知道的排版雷区"  
+- 场景+结果："早餐这样拍🔥赞藏破万"  
+- 悬念+对比："你的封面为什么没流量？"
+
+## 🔥 高互动内容框架
+1️⃣ **价值金字塔**：  
+   ⭐️ 顶层：**7天涨粉1W**（结果驱动）  
+   ⭐️ 中层：3个排版误区+5个解决方案  
+   ⭐️ 底层：实操案例对比图（before/after）
+
+2️⃣ **符号排版法**：  
+   ➡️ 用◆分割内容模块  
+   ➡️ 用⭐️标注核心卖点  
+   ➡️ 用✅展示功能清单`;
+    editor.value = defaultText;
+    processInput(defaultText);
+});
+
+        document.getElementById('content-editor').addEventListener('input', function(e) {
+            processInput(e.target.value);
+        });
+
+        function processInput(input) {
+            cardContainer.innerHTML = '';
+            const isMarkdown = /^(#+\s|\[.*\]\(.*\)|\*\*.*\*\*|- \[[x ]\]|`{3})/m.test(input);
+            
+            try {
+                isMarkdown ? processMarkdown(input) : processPlainText(input);
+            } catch (error) {
+                createErrorCard('内容解析错误，请检查格式');
+            }
+        }
+
+        function processPlainText(input) {
+            const lines = input.split('\n');
+            let contentStack = [];
+            
+            // 构建内容栈（保留所有空行）
+            for (let line of lines) {
+                contentStack.push(line === '' ? createEmptyLineNode() : createTextNode(line));
+            }
+
+            // 循环处理内容分页
+            while (contentStack.length > 0) {
+                // 获取当前卡片标题（第一个有效内容）
+                let titleNode = findNextTitle(contentStack);
+                let title = titleNode ? titleNode.textContent : '无标题';
+                
+                // 移除标题节点（关键修改：完全移除标题节点）
+                if (titleNode) {
+                    const titleIndex = contentStack.indexOf(titleNode);
+                    contentStack.splice(titleIndex, 1);
+                }
+
+                // 收集当前卡片内容
+                let currentHeight = 0;
+                let cardContent = [];
+
+                // 填充内容直到高度不足
+                while (contentStack.length > 0) {
+                    const node = contentStack[0];
+                    const nodeHeight = estimateNodeHeight(node);
+                    
+                    if (currentHeight + nodeHeight > maxCardHeight - 150) break;
+                    
+                    cardContent.push(contentStack.shift());
+                    currentHeight += nodeHeight;
+                }
+
+                // 创建卡片（允许空内容但存在标题的情况）
+                if (cardContent.length > 0 || title !== '无标题') {
+                    createCard(cardContent, title);
+                }
+            }
+        }
+
+        function processMarkdown(input) {
+            // 首先按空行分割内容块
+            const contentBlocks = input.split(/\n\s*\n/).filter(block => block.trim());
+            const contentStack = [];
+            let currentTitle = '';  // 用于跟踪当前标题
+            
+            for (const block of contentBlocks) {
+                // 解析整个内容块的 Markdown
+                const html = marked.parse(block);
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const nodes = Array.from(doc.body.childNodes);
+                
+                let blockContent = {
+                    title: '',
+                    nodes: [],
+                    height: 0
+                };
+                
+                // 检查是否包含有序列表或无序列表
+                const hasList = nodes.some(node => 
+                    node.nodeType === Node.ELEMENT_NODE && 
+                    (node.tagName === 'OL' || node.tagName === 'UL')
+                );
+                
+                // 查找标题节点
+                const titleNode = nodes.find(node => 
+                    node.nodeType === Node.ELEMENT_NODE && /^H[1-6]$/.test(node.tagName)
+                );
+                
+                if (titleNode) {
+                    // 更新当前标题
+                    currentTitle = titleNode.textContent;
+                    blockContent.title = currentTitle;
+                } else if (hasList && currentTitle) {
+                    // 如果有列表且有之前的标题，继续使用之前的标题
+                    blockContent.title = currentTitle;
+                } else {
+                    // 其他情况使用第一行文本作为标题
+                    const firstLine = block.split('\n')[0].trim();
+                    blockContent.title = firstLine || '继续阅读';
+                    currentTitle = ''; // 重置当前标题
+                }
+                
+                // 处理内容节点
+                nodes.forEach(node => {
+                    if (node !== titleNode && isValidNode(node)) {
+                        const clonedNode = cloneNodeWithStyle(node);
+                        blockContent.nodes.push(clonedNode);
+                        blockContent.height += estimateNodeHeight(clonedNode);
+                    }
+                });
+                
+                // 只添加非空内容块
+                if (blockContent.nodes.length > 0) {
+                    contentStack.push(blockContent);
+                }
+            }
+            
+            // 创建卡片
+            contentStack.forEach(section => {
+                if (section.nodes.length > 0) {
+                    createCard(section.nodes, section.title);
+                }
+            });
+        }
+
+        // 添加 findNextTitle 函数
+        function findNextTitle(nodes) {
+            for (let node of nodes) {
+                if (node.nodeType === Node.ELEMENT_NODE && /^H[1-6]$/.test(node.tagName)) {
+                    return node.textContent;
+                }
+            }
+            return null;
+        }
+
+        function isValidNode(node) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                return true;
+            }
+            if (node.nodeType === Node.TEXT_NODE) {
+                // 保留空行，但过滤掉纯空白内容
+                return node.textContent.includes('\n') || node.textContent.trim() !== '';
+            }
+            return false;
+        }
+
+        function cloneNodeWithStyle(node) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                if (/^\s*$/.test(node.textContent)) {
+                    return createEmptyLineNode();
+                }
+                const p = document.createElement('p');
+                p.textContent = node.textContent;
+                p.style.fontSize = `${currentFontSize}px`;
+                p.style.margin = '0.5em 0';
+                return p;
+            }
+        
+            const cloned = node.cloneNode(true);
+            if (cloned.style) {
+                cloned.style.fontSize = `${currentFontSize}px`;
+                cloned.style.margin = '0.5em 0';
+            }
+            
+            if (cloned.tagName === 'UL' || cloned.tagName === 'OL') {
+                cloned.style.paddingLeft = '20px';
+                cloned.style.listStylePosition = 'outside';
+                cloned.style.marginLeft = '0';
+                Array.from(cloned.getElementsByTagName('li')).forEach(li => {
+                    li.style.marginBottom = '8px';
+                });
+            }
+            
+            return cloned;
+        }
+
+        function findNextTitle(stack) {
+            return stack.find(node => 
+                node.textContent && node.textContent.trim() !== ''
+            );
+        }
+
+        function createEmptyLineNode() {
+            const p = document.createElement('p');
+            p.innerHTML = '&nbsp;';
+            p.style.fontSize = `${currentFontSize}px`;
+            return p;
+        }
+
+        function createCard(contentNodes, title) {
+            const card = document.createElement('div');
+            card.className = `card ${currentStyle}`;
+            
+            const cardContent = document.createElement('div');
+            cardContent.className = 'card-content';
+            
+            const header = document.createElement('div');
+            header.className = 'card-header';
+            header.innerHTML = `
+                <div class="icon-box" style="${getIconGradient(currentStyle)}">
+                    <i class="icon fas ${getStyleIcon(currentStyle)}"></i>
+                </div>
+                <h2>${title}</h2>
+            `;
+
+            const contentItem = document.createElement('div');
+            contentItem.className = 'content-item';
+            const textContent = document.createElement('div');
+            textContent.className = 'text-content';
+            textContent.style.fontSize = `${currentFontSize}px`;
+            
+            contentNodes.forEach(node => textContent.appendChild(node.cloneNode(true)));
+
+            const divider = document.createElement('div');
+            divider.className = 'divider';
+
+            cardContent.appendChild(header);
+            cardContent.appendChild(divider);
+            cardContent.appendChild(contentItem);
+            contentItem.appendChild(textContent);
+            card.appendChild(cardContent);
+
+            const downloadBtn = document.createElement('div');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+            downloadBtn.onclick = () => downloadCard(card);
+            card.appendChild(downloadBtn);
+
+            cardContainer.appendChild(card);
+        }
+
+        /* 辅助函数 */
+        function createErrorCard(message) {
+            const card = document.createElement('div');
+            card.className = 'card dashed';
+            card.innerHTML = `
+                <div class="card-content">
+                    <div class="card-header">
+                        <div class="icon-box" style="background:linear-gradient(45deg, #ff0000, #ff6b6b)">
+                            <i class="icon fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h2 style="color:#ff0000">格式错误</h2>
+                    </div>
+                    <div class="divider" style="background:linear-gradient(90deg, #ff0000, #ff6b6b)"></div>
+                    <div class="content-item">
+                        <div class="text-content" style="color:#ff0000">
+                            ${message}
+                        </div>
+                    </div>
+                </div>
+            `;
+            cardContainer.appendChild(card);
+        }
+
+        function createTextNode(text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            p.style.fontSize = `${currentFontSize}px`;
+            return p;
+        }
+
+        function isValidNode(node) {
+            return node.nodeType === Node.ELEMENT_NODE || 
+                  (node.nodeType === Node.TEXT_NODE && node.textContent.trim() !== '');
+        }
+
+        function cloneNodeWithStyle(node) {
+            const cloned = node.cloneNode(true);
+            if (cloned.style) {
+                cloned.style.fontSize = `${currentFontSize}px`;
+                cloned.style.margin = '0.5em 0';
+            }
+            // 为列表添加额外的样式
+            if (cloned.tagName === 'UL' || cloned.tagName === 'OL') {
+                cloned.style.paddingLeft = '20px';
+                cloned.style.listStylePosition = 'outside';
+            }
+            return cloned;
+        }
+
+        // 修改 estimateNodeHeight 函数以更准确地计算高度
+        function estimateNodeHeight(node) {
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = `
+                position: absolute;
+                visibility: hidden;
+                white-space: pre-wrap;
+                width: 240px;
+                font-size: ${currentFontSize}px;
+                line-height: 1.6;
+                padding: 0.5em 0;
+                font-family: 'Helvetica Neue', system-ui;
+            `;
+            tempDiv.appendChild(node.cloneNode(true));
+            document.body.appendChild(tempDiv);
+            const height = tempDiv.offsetHeight;
+            document.body.removeChild(tempDiv);
+            return height;
+        }
+
+        function adjustFontSize(change) {
+            currentFontSize = Math.min(24, Math.max(12, currentFontSize + change));
+            const input = document.getElementById('content-editor').value;
+            processInput(input);
+        }
+
+        function switchStyle(style) {
+            currentStyle = style;
+            document.querySelectorAll('.card').forEach(card => {
+                card.className = `card ${style}`;
+                const iconBox = card.querySelector('.icon-box');
+                iconBox.style.background = getIconGradient(style);
+                card.querySelector('.icon').className = `icon fas ${getStyleIcon(style)}`;
+            });
+        }
+
+        function getStyleIcon(style) {
+            const icons = {
+                'default': 'fa-quote-right',
+                'cyberpunk': 'fa-microchip',
+                'neon': 'fa-bolt',
+                'glow': 'fa-star',
+                'gradient': 'fa-palette',
+                'dashed': 'fa-fire'
+            };
+            return icons[style] || 'fa-file-alt';
+        }
+
+        function getIconGradient(style) {
+            const gradients = {
+                'default': 'linear-gradient(45deg, #6366f1, #8b5cf6)',
+                'cyberpunk': 'linear-gradient(45deg, #ec4899, #6366f1)',
+                'neon': 'linear-gradient(45deg, #00f3ff, #ff00ff)',
+                'glow': 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
+                'gradient': 'linear-gradient(45deg, #6366f1, #ec4899)',
+                'dashed': 'linear-gradient(45deg, #ffd700, #ff9100)'
+            };
+            return gradients[style] || gradients['default'];
+        }
+
+        function downloadCard(card) {
+            html2canvas(card, {
+                useCORS: true,
+                scale: 2,
+                backgroundColor: null
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `小红书卡片-${Date.now()}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        async function downloadAllCards() {
+            const cards = document.querySelectorAll('.card');
+            for (let i = 0; i < cards.length; i++) {
+                await new Promise(resolve => setTimeout(resolve, 300));
+                await html2canvas(cards[i], {
+                    useCORS: true,
+                    scale: 2,
+                    backgroundColor: null
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `小红书卡片-${i+1}-${Date.now()}.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                });
+            }
+        }
+    </script>
+</body>
+</html>
