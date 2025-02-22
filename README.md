@@ -1,4 +1,7 @@
-# 小红书卡片生成器:一键生成小红书图文卡片
+# [小红书卡片生成器:一键生成小红书图文卡片](https://weierboge.github.io/Redbookcard/)
+
+访问地址：[小红书卡片生成器](https://weierboge.github.io/Redbookcard/)
+
 本工具支持普通文本和Markdown文本一键转换为小红书卡片。 
 大家可以用空行和字号调节自行调节卡片内容分布。
 
