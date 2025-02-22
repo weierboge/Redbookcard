@@ -6,4 +6,4 @@
 本人完全不懂编程，0代码基础，本工具使用DeepSeek R1聊天工具和Trae以及Claude-3.5 辅助开发，感谢DeepSeek和字节跳动，让我能够免费使用这些工具。
 
 工具截图：
-https://github.com/weierboge/Redbookcard/blob/main/Redbookcardtool.png
+![image](https://github.com/weierboge/Redbookcard/blob/main/Redbookcardtool.png)
