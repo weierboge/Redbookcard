@@ -333,6 +333,13 @@
         .text-content strong {
             color: var(--tech-blue);
         }
+        
+        /* 添加以下样式确保二级标题左对齐 */
+        .text-content h1, .text-content h2, .text-content h3, 
+        .text-content h4, .text-content h5, .text-content h6 {
+            text-align: left;
+            margin: 0.8em 0;
+        }
 
         .download-btn {
             position: absolute;
@@ -456,6 +463,7 @@
         <button class="style-btn" onclick="switchStyle('glow')">流光</button>
         <button class="style-btn" onclick="switchStyle('gradient')">渐变</button>
         <button class="style-btn" onclick="switchStyle('dashed')">脉冲</button>
+        <button class="style-btn" onclick="toggleTextAlign()"><i class="fas fa-align-left" id="align-icon"></i></button>
         <button class="download-all-btn" onclick="downloadAllCards()">
             <i class="fas fa-download"></i> 下载全部卡片
         </button>
@@ -475,6 +483,7 @@
         const cardContainer = document.querySelector('.card-container');
         const maxCardHeight = 373;
         let currentStyle = 'default';
+        let currentTextAlign = 'left'; // 添加文本对齐方式变量
 
         marked.setOptions({
             breaks: true,
@@ -711,7 +720,7 @@
                 <div class="icon-box" style="${getIconGradient(currentStyle)}">
                     <i class="icon fas ${getStyleIcon(currentStyle)}"></i>
                 </div>
-                <h2>${title}</h2>
+                <h2 style="font-size: ${currentFontSize * 1.2}px; text-align: ${currentTextAlign};">${title}</h2>
             `;
 
             const contentItem = document.createElement('div');
@@ -719,6 +728,7 @@
             const textContent = document.createElement('div');
             textContent.className = 'text-content';
             textContent.style.fontSize = `${currentFontSize}px`;
+            textContent.style.textAlign = currentTextAlign; // 应用当前对齐方式
             
             contentNodes.forEach(node => textContent.appendChild(node.cloneNode(true)));
 
@@ -822,6 +832,13 @@
                 const iconBox = card.querySelector('.icon-box');
                 iconBox.style.background = getIconGradient(style);
                 card.querySelector('.icon').className = `icon fas ${getStyleIcon(style)}`;
+                
+                // 保持标题的字号和对齐方式
+                const title = card.querySelector('h2');
+                if (title) {
+                    title.style.fontSize = `${currentFontSize * 1.2}px`;
+                    title.style.textAlign = currentTextAlign;
+                }
             });
         }
 
@@ -848,12 +865,57 @@
             };
             return gradients[style] || gradients['default'];
         }
+        
+        // 添加文本对齐切换函数
+        function toggleTextAlign() {
+            // 循环切换对齐方式：左对齐 -> 居中 -> 右对齐 -> 左对齐
+            if (currentTextAlign === 'left') {
+                currentTextAlign = 'center';
+            } else if (currentTextAlign === 'center') {
+                currentTextAlign = 'right';
+            } else {
+                currentTextAlign = 'left';
+            }
+            
+            // 更新按钮图标
+            const alignIcon = document.getElementById('align-icon');
+            alignIcon.className = `fas fa-align-${currentTextAlign}`;
+            
+            // 更新所有卡片的文本对齐方式
+            document.querySelectorAll('.text-content').forEach(content => {
+                content.style.textAlign = currentTextAlign;
+            });
+            
+            // 重新处理输入，以便新创建的卡片也应用新的对齐方式
+            const input = document.getElementById('content-editor').value;
+            processInput(input);
+        }
 
         function downloadCard(card) {
             html2canvas(card, {
                 useCORS: true,
                 scale: 2,
-                backgroundColor: null
+                backgroundColor: null,
+                onclone: function(clonedDoc) {
+                    // 确保克隆文档中的标题样式正确
+                    const headings = clonedDoc.querySelectorAll('.text-content h1, .text-content h2, .text-content h3, .text-content h4, .text-content h5, .text-content h6');
+                    headings.forEach(heading => {
+                        heading.style.textAlign = currentTextAlign; // 使用当前对齐方式
+                    });
+                    
+                    // 确保文本内容对齐方式正确
+                    const textContents = clonedDoc.querySelectorAll('.text-content');
+                    textContents.forEach(content => {
+                        content.style.textAlign = currentTextAlign;
+                    });
+                    
+                    // 确保卡片标题也应用当前样式
+                    const cardTitles = clonedDoc.querySelectorAll('.card-header h2');
+                    cardTitles.forEach(title => {
+                        title.style.fontSize = `${currentFontSize * 1.2}px`;
+                        title.style.textAlign = currentTextAlign;
+                    });
+                }
             }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = `小红书卡片-${Date.now()}.png`;
@@ -869,7 +931,27 @@
                 await html2canvas(cards[i], {
                     useCORS: true,
                     scale: 2,
-                    backgroundColor: null
+                    backgroundColor: null,
+                    onclone: function(clonedDoc) {
+                        // 确保克隆文档中的标题样式正确
+                        const headings = clonedDoc.querySelectorAll('.text-content h1, .text-content h2, .text-content h3, .text-content h4, .text-content h5, .text-content h6');
+                        headings.forEach(heading => {
+                            heading.style.textAlign = currentTextAlign; // 使用当前对齐方式
+                        });
+                        
+                        // 确保文本内容对齐方式正确
+                        const textContents = clonedDoc.querySelectorAll('.text-content');
+                        textContents.forEach(content => {
+                            content.style.textAlign = currentTextAlign;
+                        });
+                        
+                        // 确保卡片标题也应用当前样式
+                        const cardTitles = clonedDoc.querySelectorAll('.card-header h2');
+                        cardTitles.forEach(title => {
+                            title.style.fontSize = `${currentFontSize * 1.2}px`;
+                            title.style.textAlign = currentTextAlign;
+                        });
+                    }
                 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = `小红书卡片-${i+1}-${Date.now()}.png`;
