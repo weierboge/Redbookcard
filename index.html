@@ -534,112 +534,84 @@
         }
 
         function processPlainText(input) {
-            const lines = input.split('\n');
-            let contentStack = [];
+            // 按空行分割内容块
+            const contentBlocks = input.split(/\n\s*\n/).filter(block => block.trim());
             
-            // 构建内容栈（保留所有空行）
-            for (let line of lines) {
-                contentStack.push(line === '' ? createEmptyLineNode() : createTextNode(line));
-            }
-
-            // 循环处理内容分页
-            while (contentStack.length > 0) {
-                // 获取当前卡片标题（第一个有效内容）
-                let titleNode = findNextTitle(contentStack);
-                let title = titleNode ? titleNode.textContent : '无标题';
+            // 处理每个内容块
+            for (const block of contentBlocks) {
+                const lines = block.split('\n');
                 
-                // 移除标题节点（关键修改：完全移除标题节点）
-                if (titleNode) {
-                    const titleIndex = contentStack.indexOf(titleNode);
-                    contentStack.splice(titleIndex, 1);
+                // 如果内容块为空，跳过
+                if (lines.length === 0) continue;
+                
+                // 第一行作为标题
+                const title = lines[0].trim() || '无标题';
+                
+                // 剩余行作为内容（如果只有一行，则内容为空）
+                const contentLines = lines.length > 1 ? lines.slice(1) : [];
+                let contentNodes = [];
+                
+                // 构建内容节点（只处理非空行）
+                for (let line of contentLines) {
+                    const trimmedLine = line.trim();
+                    // 跳过与标题相同的行
+                    if (trimmedLine && trimmedLine !== title) {
+                        contentNodes.push(createTextNode(line));
+                    } else if (!trimmedLine) {
+                        contentNodes.push(createEmptyLineNode());
+                    }
                 }
-
-                // 收集当前卡片内容
-                let currentHeight = 0;
-                let cardContent = [];
-
-                // 填充内容直到高度不足
-                while (contentStack.length > 0) {
-                    const node = contentStack[0];
-                    const nodeHeight = estimateNodeHeight(node);
-                    
-                    if (currentHeight + nodeHeight > maxCardHeight - 150) break;
-                    
-                    cardContent.push(contentStack.shift());
-                    currentHeight += nodeHeight;
-                }
-
-                // 创建卡片（允许空内容但存在标题的情况）
-                if (cardContent.length > 0 || title !== '无标题') {
-                    createCard(cardContent, title);
-                }
+                
+                // 创建卡片
+                createCard(contentNodes, title);
             }
         }
 
         function processMarkdown(input) {
-            // 首先按空行分割内容块
             const contentBlocks = input.split(/\n\s*\n/).filter(block => block.trim());
             const contentStack = [];
-            let currentTitle = '';  // 用于跟踪当前标题
+            let currentTitle = '';
             
             for (const block of contentBlocks) {
-                // 解析整个内容块的 Markdown
-                const html = marked.parse(block);
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const nodes = Array.from(doc.body.childNodes);
+                // 将内容块分为第一行和剩余部分
+                const lines = block.split('\n');
+                const firstLine = lines[0];
+                const remainingLines = lines.slice(1).join('\n');
+                
+                // 对第一行单独进行 Markdown 解析作为标题
+                const titleHtml = marked.parse(firstLine);
+                const titleParser = new DOMParser();
+                const titleDoc = titleParser.parseFromString(titleHtml, 'text/html');
+                const titleText = titleDoc.body.textContent.trim();
+                
+                // 对剩余内容进行 Markdown 解析
+                const contentHtml = remainingLines ? marked.parse(remainingLines) : '';
+                const contentParser = new DOMParser();
+                const contentDoc = contentParser.parseFromString(contentHtml, 'text/html');
+                const contentNodes = Array.from(contentDoc.body.childNodes);
                 
                 let blockContent = {
-                    title: '',
+                    title: titleText || '继续阅读',
                     nodes: [],
                     height: 0
                 };
                 
-                // 检查是否包含有序列表或无序列表
-                const hasList = nodes.some(node => 
-                    node.nodeType === Node.ELEMENT_NODE && 
-                    (node.tagName === 'OL' || node.tagName === 'UL')
-                );
-                
-                // 查找标题节点
-                const titleNode = nodes.find(node => 
-                    node.nodeType === Node.ELEMENT_NODE && /^H[1-6]$/.test(node.tagName)
-                );
-                
-                if (titleNode) {
-                    // 更新当前标题
-                    currentTitle = titleNode.textContent;
-                    blockContent.title = currentTitle;
-                } else if (hasList && currentTitle) {
-                    // 如果有列表且有之前的标题，继续使用之前的标题
-                    blockContent.title = currentTitle;
-                } else {
-                    // 其他情况使用第一行文本作为标题
-                    const firstLine = block.split('\n')[0].trim();
-                    blockContent.title = firstLine || '继续阅读';
-                    currentTitle = ''; // 重置当前标题
-                }
-                
                 // 处理内容节点
-                nodes.forEach(node => {
-                    if (node !== titleNode && isValidNode(node)) {
+                contentNodes.forEach(node => {
+                    if (isValidNode(node)) {
                         const clonedNode = cloneNodeWithStyle(node);
                         blockContent.nodes.push(clonedNode);
                         blockContent.height += estimateNodeHeight(clonedNode);
                     }
                 });
                 
-                // 只添加非空内容块
-                if (blockContent.nodes.length > 0) {
-                    contentStack.push(blockContent);
-                }
+                // 添加到内容栈
+                contentStack.push(blockContent);
             }
             
             // 创建卡片
             contentStack.forEach(section => {
-                if (section.nodes.length > 0) {
-                    createCard(section.nodes, section.title);
-                }
+                createCard(section.nodes, section.title);
             });
         }
 
