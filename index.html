@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小红书图文卡片生成器</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <style>
         :root {
             --tech-blue: #6366f1;
@@ -864,11 +866,19 @@
         }
 
         function downloadCard(card) {
+            // 临时隐藏下载按钮
+            const downloadBtn = card.querySelector('.download-btn');
+            downloadBtn.style.display = 'none';
+            
             html2canvas(card, {
                 useCORS: true,
-                scale: 2,
+                scale: 4,
                 backgroundColor: null,
                 onclone: function(clonedDoc) {
+                    // 在克隆的文档中也隐藏下载按钮
+                    const clonedBtn = clonedDoc.querySelector('.download-btn');
+                    if (clonedBtn) clonedBtn.style.display = 'none';
+                    
                     // 确保克隆文档中的标题样式正确
                     const headings = clonedDoc.querySelectorAll('.text-content h1, .text-content h2, .text-content h3, .text-content h4, .text-content h5, .text-content h6');
                     headings.forEach(heading => {
@@ -893,22 +903,59 @@
                 link.download = `小红书卡片-${Date.now()}.png`;
                 link.href = canvas.toDataURL();
                 link.click();
+                
+                // 恢复下载按钮显示
+                downloadBtn.style.display = 'grid';
             });
         }
 
         async function downloadAllCards() {
             const cards = document.querySelectorAll('.card');
+            const zip = new JSZip();
+            const imgFolder = zip.folder("小红书卡片");
+            
+            // 显示下载进度提示
+            const progressDiv = document.createElement('div');
+            progressDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 9999;
+                text-align: center;
+            `;
+            progressDiv.innerHTML = `<div>正在生成卡片 <span id="progress">0/${cards.length}</span></div>`;
+            document.body.appendChild(progressDiv);
+            
+            // 用于存储所有图片生成的Promise
+            const promises = [];
+            
             for (let i = 0; i < cards.length; i++) {
-                await new Promise(resolve => setTimeout(resolve, 300));
-                await html2canvas(cards[i], {
+                // 更新进度
+                document.getElementById('progress').textContent = `${i+1}/${cards.length}`;
+                
+                // 临时隐藏下载按钮
+                const downloadBtn = cards[i].querySelector('.download-btn');
+                downloadBtn.style.display = 'none';
+                
+                // 创建Promise并添加到数组
+                const promise = html2canvas(cards[i], {
                     useCORS: true,
-                    scale: 2,
+                    scale: 4,
                     backgroundColor: null,
                     onclone: function(clonedDoc) {
+                        // 在克隆的文档中也隐藏下载按钮
+                        const clonedBtn = clonedDoc.querySelector('.download-btn');
+                        if (clonedBtn) clonedBtn.style.display = 'none';
+                        
                         // 确保克隆文档中的标题样式正确
                         const headings = clonedDoc.querySelectorAll('.text-content h1, .text-content h2, .text-content h3, .text-content h4, .text-content h5, .text-content h6');
                         headings.forEach(heading => {
-                            heading.style.textAlign = currentTextAlign; // 使用当前对齐方式
+                            heading.style.textAlign = currentTextAlign;
                         });
                         
                         // 确保文本内容对齐方式正确
@@ -925,12 +972,51 @@
                         });
                     }
                 }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = `小红书卡片-${i+1}-${Date.now()}.png`;
-                    link.href = canvas.toDataURL();
-                    link.click();
+                    // 恢复下载按钮显示
+                    downloadBtn.style.display = 'grid';
+                    
+                    // 将canvas转换为blob并添加到zip
+                    return new Promise((resolve, reject) => {
+                        canvas.toBlob(blob => {
+                            imgFolder.file(`小红书卡片-${i+1}.png`, blob);
+                            resolve();
+                        }, 'image/png');
+                    });
+                }).catch(error => {
+                    console.error(`生成第${i+1}张卡片出错:`, error);
+                    // 恢复下载按钮显示
+                    downloadBtn.style.display = 'grid';
                 });
+                
+                promises.push(promise);
+                
+                // 每处理3张卡片暂停一下，避免浏览器卡顿
+                if ((i + 1) % 3 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
             }
+            
+            // 等待所有图片处理完成
+            Promise.all(promises).then(async () => {
+                progressDiv.innerHTML = `<div>正在打包下载...</div>`;
+                
+                try {
+                    // 生成zip文件并下载
+                    const content = await zip.generateAsync({type: 'blob'});
+                    saveAs(content, `小红书卡片集合-${Date.now()}.zip`);
+                    
+                    // 下载完成后移除进度提示
+                    setTimeout(() => {
+                        document.body.removeChild(progressDiv);
+                    }, 1000);
+                } catch (error) {
+                    console.error('生成压缩包出错:', error);
+                    progressDiv.innerHTML = `<div>生成压缩包出错，请重试</div>`;
+                    setTimeout(() => {
+                        document.body.removeChild(progressDiv);
+                    }, 3000);
+                }
+            });
         }
     </script>
 </body>
