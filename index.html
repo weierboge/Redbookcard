@@ -20,6 +20,18 @@
             --cyber-pink: #ec4899;
             --neon-cyan: #00f3ff;
             --glow-yellow: #ffd700;
+            --aurora-green: #4ade80;
+            --aurora-blue: #60a5fa;
+            --sunset-orange: #f97316;
+            --sunset-pink: #fb7185;
+            --ocean-blue: #0ea5e9;
+            --ocean-teal: #14b8a6;
+            --forest-green: #22c55e;
+            --forest-teal: #2dd4bf;
+            --twilight-purple: #a855f7;
+            --twilight-pink: #ec4899;
+            --cosmos-blue: #3b82f6;
+            --cosmos-purple: #8b5cf6;
         }
 
         body {
@@ -63,7 +75,7 @@
             position: relative;
             width: 80%;
             max-width: 800px;
-            margin: 0 auto 40px;
+            margin: 0 auto 10px;
             border-radius: 20px;
             background: linear-gradient(45deg, 
                 #6366f1, 
@@ -115,10 +127,19 @@
 
         .toolbar {
             display: flex;
+            flex-direction: column;
             gap: 10px;
             justify-content: center;
+            align-items: center;
             margin: 20px 0;
             width: 100%;
+        }
+        
+        .toolbar-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .style-btn {
@@ -198,7 +219,7 @@
             z-index: -1;
             margin: -3px;
             border-radius: inherit;
-            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
         }
 
         .card-content {
@@ -214,15 +235,15 @@
         }
 
         .neon {
-            background: linear-gradient(45deg, #ff00ff, #00ffff, #ff00ff);
-            animation: neon-glow 2s linear infinite;
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--cyber-pink), var(--neon-cyan));
+            animation: neon-glow 4s ease infinite;
+            background-size: 300% 300%;
         }
 
         @keyframes neon-glow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% { background-position: 0% 30%; }
+            50% { background-position: 100% 70%; }
+            100% { background-position: 0% 30%; }
         }
 
         .neon .card-content {
@@ -230,7 +251,15 @@
         }
 
         .cyberpunk {
-            background: linear-gradient(45deg, var(--cyber-pink), var(--tech-blue));
+            background: linear-gradient(45deg, var(--cyber-pink), var(--tech-purple), var(--tech-blue));
+            animation: cyberpunk-shift 8s ease infinite;
+            background-size: 300% 300%;
+        }
+        
+        @keyframes cyberpunk-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .cyberpunk .card-content {
@@ -238,7 +267,7 @@
         }
 
         .glow {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            background: linear-gradient(135deg, #4ecdc4, #ff6b6b);
         }
 
         .glow .card-content {
@@ -246,7 +275,7 @@
         }
 
         .gradient {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, var(--tech-blue), var(--tech-purple));
         }
 
         .gradient .card-content {
@@ -271,6 +300,95 @@
 
         .dashed .card-content {
             background: rgba(0,0,0,0.9);
+        }
+
+        /* 新增样式：极光 */
+        .aurora {
+            background: linear-gradient(135deg, var(--aurora-green), var(--aurora-blue));
+            animation: aurora-flow 8s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes aurora-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .aurora .card-content {
+            background: rgba(10,15,30,0.9);
+        }
+
+        /* 新增样式：薄暮 */
+        .twilight {
+            background: linear-gradient(135deg, var(--twilight-purple), var(--twilight-pink));
+            background-size: 200% 200%;
+        }
+
+        .twilight .card-content {
+            background: rgba(30,10,40,0.9);
+        }
+
+        /* 新增样式：海洋 */
+        .ocean {
+            background: linear-gradient(135deg, var(--ocean-blue), var(--ocean-teal));
+            animation: ocean-wave 10s ease-in-out infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes ocean-wave {
+            0% { background-position: 0% 30%; }
+            50% { background-position: 100% 70%; }
+            100% { background-position: 0% 30%; }
+        }
+
+        .ocean .card-content {
+            background: rgba(255,255,255,0.95);
+        }
+
+        /* 新增样式：森林 */
+        .forest {
+            background: linear-gradient(135deg, var(--forest-green), var(--forest-teal));
+        }
+
+        .forest .card-content {
+            background: rgba(255,255,255,0.95);
+        }
+
+        /* 新增样式：日落 */
+        .sunset {
+            background: linear-gradient(135deg, var(--sunset-orange), var(--sunset-pink));
+            animation: sunset-fade 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes sunset-fade {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .sunset .card-content {
+            background: rgba(255,255,255,0.95);
+        }
+
+        /* 新增样式：宇宙 */
+        .cosmos {
+            background: linear-gradient(135deg, var(--cosmos-blue), var(--cosmos-purple));
+            animation: cosmos-spin 12s ease infinite;
+            background-size: 300% 300%;
+        }
+
+        @keyframes cosmos-spin {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .cosmos .card-content {
+            background: rgba(10,10,25,0.95);
         }
 
         .card-header {
@@ -386,7 +504,20 @@
         .cyberpunk .text-content { color: white; }
         .dashed h2 { color: var(--glow-yellow); }
         .dashed .text-content { color: white; }
-         .personal-intro {
+        
+        /* 优化极光样式的文字颜色 */
+        .aurora h2 { color: #ffffff; }
+        .aurora .text-content { color: #ffffff; }
+        
+        /* 优化薄暮样式的文字颜色 */
+        .twilight h2 { color: #ffffff; }
+        .twilight .text-content { color: #ffffff; }
+        
+        /* 优化宇宙样式的文字颜色 */
+        .cosmos h2 { color: #ffffff; }
+        .cosmos .text-content { color: #ffffff; }
+        
+        .personal-intro {
             max-width: 680px;
             margin: 0 auto;
             text-align: center;
@@ -455,20 +586,30 @@
     </div>
 
     <div class="toolbar">
-        <div class="font-control">
-            <button class="style-btn" onclick="adjustFontSize(-2)">A-</button>
-            <button class="style-btn" onclick="adjustFontSize(2)">A+</button>
+        <div class="toolbar-row">
+            <div class="font-control">
+                <button class="style-btn" onclick="adjustFontSize(-2)">A-</button>
+                <button class="style-btn" onclick="adjustFontSize(2)">A+</button>
+            </div>
+            <button class="style-btn" onclick="switchStyle('default')">默认</button>
+            <button class="style-btn" onclick="switchStyle('cyberpunk')">赛博</button>
+            <button class="style-btn" onclick="switchStyle('neon')">霓虹</button>
+            <button class="style-btn" onclick="switchStyle('glow')">流光</button>
+            <button class="style-btn" onclick="switchStyle('gradient')">渐变</button>
+            <button class="style-btn" onclick="switchStyle('dashed')">脉冲</button>
         </div>
-        <button class="style-btn" onclick="switchStyle('default')">默认</button>
-        <button class="style-btn" onclick="switchStyle('cyberpunk')">赛博</button>
-        <button class="style-btn" onclick="switchStyle('neon')">霓虹</button>
-        <button class="style-btn" onclick="switchStyle('glow')">流光</button>
-        <button class="style-btn" onclick="switchStyle('gradient')">渐变</button>
-        <button class="style-btn" onclick="switchStyle('dashed')">脉冲</button>
-        <button class="style-btn" onclick="toggleTextAlign()"><i class="fas fa-align-left" id="align-icon"></i></button>
-        <button class="download-all-btn" onclick="downloadAllCards()">
-            <i class="fas fa-download"></i> 下载全部卡片
-        </button>
+        <div class="toolbar-row">
+            <button class="style-btn" onclick="switchStyle('aurora')">极光</button>
+            <button class="style-btn" onclick="switchStyle('twilight')">薄暮</button>
+            <button class="style-btn" onclick="switchStyle('ocean')">海洋</button>
+            <button class="style-btn" onclick="switchStyle('forest')">森林</button>
+            <button class="style-btn" onclick="switchStyle('sunset')">日落</button>
+            <button class="style-btn" onclick="switchStyle('cosmos')">宇宙</button>
+            <button class="style-btn" onclick="toggleTextAlign()"><i class="fas fa-align-left" id="align-icon"></i></button>
+            <button class="download-all-btn" onclick="downloadAllCards()">
+                <i class="fas fa-download"></i> 下载全部卡片
+            </button>
+        </div>
     </div>
     <div class="card-container"></div>
        <div class="personal-intro">
@@ -823,7 +964,13 @@
                 'neon': 'fa-bolt',
                 'glow': 'fa-star',
                 'gradient': 'fa-palette',
-                'dashed': 'fa-fire'
+                'dashed': 'fa-fire',
+                'cosmos': 'fa-space-shuttle',
+                'aurora': 'fa-moon',
+                'twilight': 'fa-cloud-moon',
+                'ocean': 'fa-water',
+                'forest': 'fa-tree',
+                'sunset': 'fa-sun'
             };
             return icons[style] || 'fa-file-alt';
         }
@@ -832,10 +979,16 @@
             const gradients = {
                 'default': 'linear-gradient(45deg, #6366f1, #8b5cf6)',
                 'cyberpunk': 'linear-gradient(45deg, #ec4899, #6366f1)',
-                'neon': 'linear-gradient(45deg, #00f3ff, #ff00ff)',
+                'neon': 'linear-gradient(135deg, #00f3ff, #ff00ff)',
                 'glow': 'linear-gradient(45deg, #ff6b6b, #4ecdc4)',
                 'gradient': 'linear-gradient(45deg, #6366f1, #ec4899)',
-                'dashed': 'linear-gradient(45deg, #ffd700, #ff9100)'
+                'dashed': 'linear-gradient(45deg, #ffd700, #ff9100)',
+                'aurora': 'linear-gradient(135deg, var(--aurora-green), var(--aurora-blue))',
+                'twilight': 'linear-gradient(135deg, var(--twilight-purple), var(--twilight-pink))',
+                'ocean': 'linear-gradient(135deg, var(--ocean-blue), var(--ocean-teal))',
+                'forest': 'linear-gradient(135deg, var(--forest-green), var(--forest-teal))',
+                'sunset': 'linear-gradient(135deg, var(--sunset-orange), var(--sunset-pink))',
+                'cosmos': 'linear-gradient(135deg, var(--cosmos-blue), var(--cosmos-purple))'
             };
             return gradients[style] || gradients['default'];
         }
