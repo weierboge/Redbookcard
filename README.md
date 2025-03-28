@@ -17,6 +17,6 @@
 
 工具截图：
 
-![image]（https://github.com/weierboge/Redbookcard/blob/main/Redbook2.png） 
+
 
 ![image](https://github.com/weierboge/Redbookcard/blob/main/Redbookcardtool.png)
