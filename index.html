@@ -9,6 +9,22 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-100-M/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/dymh/dist/DouyinSansBold/result.css' />
+    <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/crgkk/dist/程荣光刻楷/result.css' />
+    <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/hwmct/dist/%E6%B1%87%E6%96%87%E6%98%8E%E6%9C%9D%E4%BD%93/result.css' />
+    <style>
+        @font-face {
+            font-family: 'Huiwen-mincho';
+            src: url('https://chinese-fonts-cdn.deno.dev/packages/hwmct/dist/%E6%B1%87%E6%96%87%E6%98%8E%E6%9C%9D%E4%BD%93/result.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+    <link rel='stylesheet' href='https://chinese-fonts-cdn.deno.dev/packages/syst/dist/SourceHanSerifCN/result.css' />
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -33,6 +49,14 @@
             --twilight-pink: #ec4899;
             --cosmos-blue: #3b82f6;
             --cosmos-purple: #8b5cf6;
+            
+            /* 用户提供的颜色 */
+            --light-blue: #E6F0FF;
+            --light-yellow: #FFF9E3;
+            --light-gray: #F5F5F5;
+            --gold: #FFD700;
+            --warning-red: #FF6B6B;
+            --accent-blue: #2E5BFF;
         }
 
         body {
@@ -74,17 +98,21 @@
 
         .input-wrapper {
             position: relative;
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             margin: 0 auto 10px;
             border-radius: 20px;
-            background: linear-gradient(45deg, 
-                #6366f1, 
-                #8b5cf6, 
-                #ec4899
+            background: linear-gradient(90deg, 
+                rgba(99, 102, 241, 0.7) 0%, 
+                #8b5cf6 50%, 
+                rgba(236, 72, 153, 0.7) 100%
             );
-            padding: 3px;
+            padding: 2px;
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
         }
 
         #content-editor {
@@ -209,6 +237,14 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: 3px solid transparent;
         }
+        
+        /* 封面卡片样式 - 保持背景透明但显示边框 */
+        .cover-card-container .card {
+            background: transparent;
+            /* 确保边框可见，与普通卡片一致 */
+            border: 3px solid transparent;
+            overflow: hidden;
+        }
 
         .card::before {
             content: '';
@@ -221,6 +257,15 @@
             margin: -3px;
             border-radius: inherit;
             background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+        
+        /* 移除封面卡片的边框，因为当前效果不美观 */
+        .cover-card-container .card {
+            border: none;
+        }
+        
+        .cover-card-container .card::before {
+            display: none; /* 完全移除边框效果 */
         }
 
         .card-content {
@@ -391,7 +436,852 @@
         .cosmos .card-content {
             background: rgba(10,10,25,0.95);
         }
+        
+        /* 新增教育主题封面样式 */
+        /* 1. 学术蓝 - 考研主题 */
+        .cover-style-19 {
+            background: linear-gradient(135deg, #e6f7ff, #bae7ff, #91d5ff);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-19::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" fill="none"/><path d="M10,2 L18,8 L14,8 L14,16 L6,16 L6,8 L2,8 L10,2 Z" fill="%231890ff" fill-opacity="0.1"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .cover-style-19 .cover-title {
+            color: #0050b3;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: none;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-19 .cover-subtitle {
+            color: #1890ff;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+        
+        /* 2. 活力橙 - 教育主题 */
+        .cover-style-20 {
+            background: #fff9e6;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-20::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #ffd666, #ffa940, #fa8c16);
+        }
+        
+        .cover-style-20::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #ffd666, #ffa940, #fa8c16);
+        }
+        
+        .cover-style-20 .cover-title {
+            color: #fa8c16;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-20 .cover-subtitle {
+            color: #d46b08;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+        
+        /* 3. 清新绿 - 学习主题 */
+        .cover-style-21 {
+            background: #f6ffed;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-21::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(82, 196, 26, 0.2);
+        }
+        
+        .cover-style-21::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(82, 196, 26, 0.15);
+        }
+        
+        .cover-style-21 .cover-title {
+            color: #389e0d;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-21 .cover-subtitle {
+            color: #52c41a;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+        
+        /* 4. 方格纸 - 学习笔记主题 */
+        .cover-style-22 {
+            background-color: #fffbe6;
+            background-image: linear-gradient(#fadb14 1px, transparent 1px),
+                            linear-gradient(90deg, #fadb14 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: -1px -1px;
+            position: relative;
+        }
+        
+        .cover-style-22::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 0;
+        }
+        
+        .cover-style-22 .cover-title {
+            color: #ad8b00;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-22 .cover-subtitle {
+            color: #d4b106;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+        }
+        
+        /* 5. 考研金 - 考研主题 */
+        .cover-style-23 {
+            background: #000000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-23::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #faad14;
+            opacity: 0.2;
+            z-index: 0;
+        }
+        
+        .cover-style-23 .cover-title {
+            color: #faad14;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .cover-style-23 .cover-subtitle {
+            color: #ffffff;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+        }
+        
+        /* 6. 高频话题 - 考试主题 */
+        .cover-style-24 {
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #1890ff;
+        }
+        
+        .cover-style-24::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: #1890ff;
+        }
+        
+        .cover-style-24 .cover-title {
+            color: #000000;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .cover-style-24 .cover-subtitle {
+            color: #faad14;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+        
+        /* 7. 引用风格 - 教育理念主题 */
+        .cover-style-25 {
+            background: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-25::before {
+            content: '\201C';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 6em;
+            font-family: Georgia, serif;
+            color: #d9d9d9;
+            line-height: 0.5;
+        }
+        
+        .cover-style-25::after {
+            content: '\201D';
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+            font-size: 6em;
+            font-family: Georgia, serif;
+            color: #d9d9d9;
+            line-height: 0.5;
+        }
+        
+        .cover-style-25 .cover-title {
+            color: #262626;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            margin: 40px 0 15px;
+            text-align: center;
+        }
+        
+        .cover-style-25 .cover-subtitle {
+            color: #595959;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        /* 8. 一键点亮 - 教育新视界主题 */
+        .cover-style-26 {
+            background: #f0f5ff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-26::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="15" cy="15" r="3" fill="%232f54eb" fill-opacity="0.1"/></svg>');
+        }
+        
+        .cover-style-26 .cover-title {
+            color: #1d39c4;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-26 .cover-subtitle {
+            color: #2f54eb;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-bottom: 25px;
+        }
+        
+        /* 9. 镜像反射 - 教育反思主题 */
+        .cover-style-27 {
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-27::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.05) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.05) 75%, transparent 75%);
+            background-size: 20px 20px;
+            opacity: 0.5;
+        }
+        
+        .cover-style-27 .cover-title {
+            color: #000000;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .cover-style-27 .cover-title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            bottom: -15px;
+            color: rgba(0,0,0,0.1);
+            transform: rotateX(180deg);
+            transform-origin: center;
+            mask-image: linear-gradient(transparent, rgba(0,0,0,0.9));
+            -webkit-mask-image: linear-gradient(transparent, rgba(0,0,0,0.9));
+        }
+        
+        .cover-style-27 .cover-subtitle {
+            color: #595959;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+        
+        /* 10. 简约线条 - 教育框架主题 */
+        .cover-style-28 {
+            background: #fafafa;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .cover-style-28::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed #d9d9d9;
+            pointer-events: none;
+        }
+        
+        .cover-style-28 .cover-title {
+            color: #262626;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-style-28 .cover-subtitle {
+            color: #8c8c8c;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 400;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 用户提供的新封面样式 */
+        /* 卡片1 - 浅蓝背景左对齐 */
+        .cover-style-29 {
+            background: #f0f5ff;
+            position: relative;
+            overflow: hidden;
+        }
 
+        .cover-style-29::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #1890ff;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-29.cover-title {
+            color: #1890ff;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(24,144,255,0.3);
+        }
+        
+        .cover-style-29.cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+        }
+        /* 卡片2 - 浅黄背景居中双竖线 (改为考研风格) */
+        .cover-style-30 {
+            background: #f5f0ff; /* 浅紫色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-30::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #9254de;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-30 .cover-title {
+            color: #722ed1;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(114,46,209,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-30 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片3 - 浅黄背景居中黄线 (改为考研风格) */
+        .cover-style-31 {
+            background: #e6fffb; /* 浅青色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-31::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #13c2c2;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-31 .cover-title {
+            color: #08979c;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(8,151,156,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-31 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片4 - 浅黄背景问号放大 (改为考研风格) */
+        .cover-style-32 {
+            background: #fff7e6; /* 浅橙色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-32::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #fa8c16;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-32 .cover-title {
+            color: #d46b08;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(212,107,8,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-32 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片5 - 浅黄背景数字放大 (改为考研风格) */
+        .cover-style-33 {
+            background: #f6ffed; /* 浅绿色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-33::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #52c41a;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-33 .cover-title {
+            color: #389e0d;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(56,158,13,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-33 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片6 - 浅灰背景角标 (改为考研风格) */
+        .cover-style-34 {
+            background: #fff1f0; /* 浅红色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-34::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #f5222d;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-34 .cover-title {
+            color: #cf1322;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(207,19,34,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-34 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片7 - 浅灰背景图标列表 (改为考研风格) */
+        .cover-style-35 {
+            background: #fcffe6; /* 浅黄绿色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-35::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #a0d911;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-35 .cover-title {
+            color: #7cb305;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(124,179,5,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-35 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .cover-style-35 .icon-list {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-style-35 .icon-list i {
+            display: inline-block;
+            margin: 0 6px;
+            font-size: 1.2em;
+            color: #7cb305;
+        }
+        
+        /* 卡片8 - 浅灰背景虚线框 (改为考研风格) */
+        .cover-style-36 {
+            background: #e6f7ff; /* 浅蓝色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-36::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #1890ff;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-36 .cover-title {
+            color: #096dd9;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(9,109,217,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-36 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片9 - 浅灰背景左侧图标 (改为考研风格) */
+        .cover-style-37 {
+            background: #f9f0ff; /* 浅紫色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-37::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #722ed1;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-37 .cover-title {
+            color: #531dab;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(83,29,171,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-37 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        /* 卡片10 - 浅灰背景底部按钮 (改为考研风格) */
+        .cover-style-38 {
+            background: #fff2e8; /* 浅橙色背景 */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-38::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            font-weight: 900;
+            color: #fa541c;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .cover-style-38 .cover-title {
+            color: #d4380d;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 3px rgba(212,56,13,0.3);
+            text-align: center;
+        }
+        
+        .cover-style-38 .cover-subtitle {
+            color: #333333;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .cover-style-38 .cover-button {
+            display: block;
+            text-align: center;
+            padding: 8px 15px;
+            border: 1px solid #fa541c;
+            border-radius: 8px;
+            margin: 15px auto 0;
+            width: 80%;
+            max-width: 200px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            color: #d4380d;
+            font-weight: 700;
+        }
+        
+        .cover-style-38 .cover-button:hover {
+            background-color: rgba(250, 84, 28, 0.1);
+        }        
         .card-header {
             display: flex;
             align-items: center;
@@ -518,6 +1408,782 @@
         .cosmos h2 { color: #ffffff; }
         .cosmos .text-content { color: #ffffff; }
         
+        /* 封面编辑区域样式 */
+        .cover-editor-container {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+
+        .cover-editor-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cover-editor-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .cover-styles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .cover-style-item {
+            height: 80px;
+            width: 80px !important; /* 强制统一宽度 */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            box-sizing: border-box; /* 确保边框不会改变元素大小 */
+        }
+
+        .cover-style-item span {
+            color: #fff;
+            font-size: 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
+            padding: 3px 0;
+        }
+
+        .cover-style-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cover-style-item.active {
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        /* 封面样式预设 */
+        /* 原有样式 */
+        .cover-style-1 {
+            background: linear-gradient(135deg, #FF9A8B, #FF6A88);
+        }
+
+        .cover-style-2 {
+            background: linear-gradient(135deg, #A8EDEA, #FED6E3);
+        }
+
+        .cover-style-3 {
+            background: linear-gradient(135deg, #5EE7DF, #B490CA);
+        }
+
+        .cover-style-4 {
+            background: linear-gradient(135deg, #D4FC79, #96E6A1);
+        }
+
+        .cover-style-5 {
+            background: linear-gradient(135deg, #E2B0FF, #9F44D3);
+        }
+
+        .cover-style-6 {
+            background: linear-gradient(135deg, #F97794, #623AA2);
+        }
+
+        .cover-style-7 {
+            background: linear-gradient(135deg, #FCCF31, #F55555);
+        }
+
+        .cover-style-8 {
+            background: linear-gradient(135deg, #F761A1, #8C1BAB);
+        }
+
+        .cover-style-9 {
+            background: linear-gradient(135deg, #43CBFF, #9708CC);
+        }
+
+        .cover-style-10 {
+            background: linear-gradient(135deg, #5EFCE8, #736EFE);
+        }
+        
+        /* 杂志风格封面样式 */
+        /* 1. 极简主义风格 (Minimalist) */
+        .cover-style-11 {
+            background: #ffffff;
+            position: relative;
+        }
+        
+        .cover-style-11 span { color: #000000; background: rgba(255,255,255,0.9); text-shadow: none; }
+        
+        .cover-style-11::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: #000;
+            opacity: 0.2;
+        }
+        
+        .cover-style-11::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: #000;
+            opacity: 0.2;
+        }
+        
+        .cover-style-11 .cover-date {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8em;
+            color: #999;
+            letter-spacing: 1px;
+        }
+        
+        /* 2. 大胆现代风格 (Bold Modern) */
+        .cover-style-12 {
+            background: #0f0f0f;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-12 span { color: #ffffff; }
+        
+        .cover-style-12::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: #ff2d55;
+            top: -30px;
+            right: -30px;
+            border-radius: 50%;
+            opacity: 0.8;
+            z-index: 0;
+        }
+        
+        .cover-style-12::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #00f2fe;
+            bottom: -20px;
+            left: -20px;
+            border-radius: 50%;
+            opacity: 0.8;
+            z-index: 0;
+        }
+        
+        .cover-style-12 .cover-title {
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-size: 3em;
+            line-height: 0.9;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-12 .cover-subtitle {
+            color: #00f2fe;
+            font-family: 'Arial', sans-serif;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 25px;
+        }
+        
+        .cover-style-12 .cover-date {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: 'Arial', sans-serif;
+            font-size: 0.9em;
+            color: #ff2d55;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+        
+        /* 3. 优雅复古风格 (Elegant Vintage) */
+        .cover-style-13 {
+            background: #f8f3e9;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-13 span { color: #5c3d2e; background: rgba(255,255,255,0.9); text-shadow: none; }
+        
+        .cover-style-13::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23a67c52" stroke-width="0.5" stroke-opacity="0.2"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .cover-style-13 .cover-title {
+            color: #5c3d2e;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: none;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-13 .cover-subtitle {
+            color: #8b5a3c;
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 400;
+            font-style: italic;
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .cover-style-13 .cover-date {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.9em;
+            color: #8b5a3c;
+            font-style: italic;
+        }
+        
+        /* 4. 时尚杂志风格 (Fashion Magazine) */
+        .cover-style-14 {
+            background: #ffffff;
+            position: relative;
+        }
+        
+        .cover-style-14::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 100%;
+            background: #000000;
+        }
+        
+        .cover-style-14 .cover-title {
+            color: #000000;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            text-align: right;
+            padding-right: 20px;
+            text-shadow: none;
+            margin-bottom: 15px;
+        }
+        
+        .cover-style-14 .cover-subtitle {
+            color: #666666;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 300;
+            text-align: right;
+            padding-right: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .cover-style-14 .cover-date {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.8em;
+            color: #000;
+            font-weight: 700;
+        }
+        
+        /* 5. 超现实拼贴风 (Surreal Collage) */
+        .cover-style-15 {
+            background: #1A1A1A;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-15::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #D4AF37 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            opacity: 0.4;
+        }
+        
+        .cover-style-15::after {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, #00CED1 0%, transparent 70%);
+            bottom: -50px;
+            left: -50px;
+            opacity: 0.4;
+        }
+        
+        .cover-style-15 .cover-title {
+            color: #D4AF37;
+            font-family: 'Didot', serif;
+            font-weight: 700;
+            font-size: 2.5em;
+            line-height: 0.9;
+            text-align: right;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 15px;
+            transform: translateY(-5px);
+        }
+        
+        .cover-style-15 .cover-subtitle {
+            color: #ffffff;
+            font-family: 'Futura', sans-serif;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+            transform: rotate(-5deg);
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 0 #8B0000;
+        }
+        
+        .cover-style-15 .cover-date {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-family: 'Futura', sans-serif;
+            font-size: 0.8em;
+            color: #00CED1;
+            letter-spacing: 1px;
+            transform: rotate(-5deg);
+            z-index: 1;
+        }
+        
+        /* 6. 新极简主义 (Neo-Minimalism) */
+        .cover-style-16 {
+            background: #FFFFFF;
+            position: relative;
+        }
+        
+        .cover-style-16::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: #B22222;
+        }
+        
+        .cover-style-16 .cover-title {
+            color: #000000;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 100;
+            font-size: 2.8em;
+            text-align: center;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+        
+        .cover-style-16 .cover-subtitle {
+            color: #C0C0C0;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .cover-style-16 .cover-date {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-size: 0.7em;
+            color: #C0C0C0;
+            letter-spacing: 1px;
+        }
+        
+        /* 7. 蒸汽波复兴 (Vaporwave Revival) */
+        .cover-style-17 {
+            background: linear-gradient(135deg, #4B0082, #FF00FF);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-17::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(0deg, transparent 0%, transparent 95%, #00FFFF 100%), 
+                            linear-gradient(90deg, transparent 0%, transparent 95%, #00FFFF 100%);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+        
+        .cover-style-17 .cover-title {
+            color: #ffffff;
+            font-family: 'Avenir Next', sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            text-shadow: 3px 3px 0 #FF00FF, -3px -3px 0 #00FFFF;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-style-17 .cover-subtitle {
+            color: #00FFFF;
+            font-family: 'OCR A Std', monospace;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-style-17 .cover-date {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-family: 'OCR A Std', monospace;
+            font-size: 0.8em;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3px 8px;
+            border: 1px solid #00FFFF;
+            z-index: 1;
+        }
+        
+        /* 8. 太空金属风 (Astro-Metal) */
+        .cover-style-18 {
+            background: #36454F;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-style-18 span { color: #ffffff; }
+        
+        .cover-style-18::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 70% 20%, #FFD700 0%, transparent 25%);
+            opacity: 0.6;
+        }
+        
+        .cover-style-18 .cover-title {
+            color: #BEBEBE;
+            font-family: 'Bank Gothic', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-style-18 .cover-subtitle {
+            color: #C0C0C0;
+            font-family: 'Eurostile', sans-serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            transform: skewX(-10deg);
+        }
+        
+        .cover-style-18 .cover-date {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-family: 'Eurostile', sans-serif;
+            font-size: 0.8em;
+            color: #FFD700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+        
+        .cover-style-15::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #000;
+            opacity: 0.1;
+        }
+        
+        .cover-style-15::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #000;
+            opacity: 0.1;
+        }
+        
+        .cover-style-15 .cover-title {
+            color: #000000;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            text-shadow: none;
+        }
+        
+        .cover-style-15 .cover-subtitle {
+            color: #666666;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .cover-editor-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cover-editor-section {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .cover-editor-section-title {
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+        
+        .cover-bg-type-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .cover-bg-option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cover-bg-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .cover-bg-option input[type="radio"] {
+            margin: 0;
+            cursor: pointer;
+        }
+        
+        .cover-bg-option label {
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .cover-input {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .cover-input:focus {
+            outline: none;
+            border-color: var(--tech-blue);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .cover-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cover-font-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cover-font-family-select,
+        .cover-font-size-select,
+        .cover-font-weight-select,
+        .cover-text-align-select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+        }
+
+        .cover-color-picker {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .cover-preview {
+            width: 280px;
+            height: 373px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cover-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .cover-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-family: 'Noto Serif SC', serif;
+            max-width: 90%;
+            line-height: 1.3;
+        }
+
+        .cover-subtitle {
+            font-size: 1.2em;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 80%;
+            line-height: 1.5;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .cover-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .cover-action-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cover-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+
+        .cover-action-btn.primary {
+            background: var(--tech-blue);
+            color: white;
+        }
+
+        .cover-action-btn.primary:hover {
+            background: var(--tech-purple);
+        }
+
         .personal-intro {
             max-width: 680px;
             margin: 0 auto;
@@ -579,6 +2245,9 @@
             }
         }
     </style>
+    <!-- 添加字图CDN字体 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@4.5.12/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@4.5.12/index.css">
 </head>
         <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-96EPJHB30G"></script>
@@ -593,6 +2262,322 @@
     <h1 class="tool-title">小红书图文卡片生成器</h1>
     <div class="input-wrapper">
         <textarea id="content-editor" placeholder="输入Markdown或普通文本..."></textarea>
+    </div>
+    
+    <!-- 封面编辑区域 -->
+    <div class="cover-editor-container" id="cover-editor">
+        <h2 class="cover-editor-title">封面编辑</h2>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">封面背景设置</div>
+            <div class="cover-bg-type-selection">
+                <div class="cover-bg-option">
+                    <input type="radio" id="cover-bg-color-option" name="cover-bg-type-main" value="color" checked>
+                    <label for="cover-bg-color-option">使用背景颜色</label>
+                </div>
+                <div class="cover-bg-option">
+                    <input type="radio" id="cover-bg-style-option" name="cover-bg-type-main" value="style">
+                    <label for="cover-bg-style-option">使用封面样式</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cover-editor-section" id="cover-styles-section" style="display: none;">
+            <div class="cover-editor-section-title">选择封面样式</div>
+            <div class="cover-styles-container">
+                <div class="cover-style-item cover-style-11" data-style="11"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">极简</span></div>
+                <div class="cover-style-item cover-style-12" data-style="12"><span style="color:#fff;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(0,0,0,0.4);padding:3px 0;">现代</span></div>
+                <div class="cover-style-item cover-style-13" data-style="13"><span style="color:#5c3d2e;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Serif SC',serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">复古</span></div>
+                <div class="cover-style-item cover-style-18" data-style="18"><span style="color:#fff;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(0,0,0,0.4);padding:3px 0;">太空</span></div>
+                <div class="cover-style-item cover-style-19" data-style="19"><span style="color:#0050b3;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">学术蓝</span></div>
+                <div class="cover-style-item cover-style-20" data-style="20"><span style="color:#fa8c16;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">活力橙</span></div>
+                <div class="cover-style-item cover-style-21" data-style="21"><span style="color:#389e0d;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">清新绿</span></div>
+                <div class="cover-style-item cover-style-22" data-style="22"><span style="color:#ad8b00;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">方格纸</span></div>
+                <div class="cover-style-item cover-style-23" data-style="23"><span style="color:#ffffff;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(0,0,0,0.4);padding:3px 0;">考研金</span></div>
+                <div class="cover-style-item cover-style-24" data-style="24"><span style="color:#1890ff;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">高频话题</span></div>
+                <div class="cover-style-item cover-style-25" data-style="25"><span style="color:#262626;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Serif SC',serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">引用风</span></div>
+                <div class="cover-style-item cover-style-26" data-style="26"><span style="color:#1d39c4;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">教育新</span></div>
+                <div class="cover-style-item cover-style-27" data-style="27"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">镜像反射</span></div>
+                <div class="cover-style-item cover-style-28" data-style="28"><span style="color:#262626;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">简约线</span></div>
+                <!-- 新增用户提供的封面样式 -->
+                <div class="cover-style-item cover-style-29" data-style="29"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">浅蓝左</span></div>
+                <div class="cover-style-item cover-style-30" data-style="30"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">浅黄竖</span></div>
+                <div class="cover-style-item cover-style-31" data-style="31"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">浅黄线</span></div>
+                <div class="cover-style-item cover-style-32" data-style="32"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">问号大</span></div>
+                <div class="cover-style-item cover-style-33" data-style="33"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">数字大</span></div>
+                <div class="cover-style-item cover-style-34" data-style="34"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">角标新</span></div>
+                <div class="cover-style-item cover-style-35" data-style="35"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">图标列</span></div>
+                <div class="cover-style-item cover-style-36" data-style="36"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">虚线框</span></div>
+                <div class="cover-style-item cover-style-37" data-style="37"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">左图标</span></div>
+                <div class="cover-style-item cover-style-38" data-style="38"><span style="color:#000;font-size:12px;position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:'Noto Sans SC',sans-serif;background:rgba(255,255,255,0.9);text-shadow:none;padding:3px 0;">底按钮</span></div>
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">封面标题</div>
+            <input type="text" class="cover-input" id="cover-title-input" placeholder="输入封面标题..." value="小红书卡片生成器">
+            
+            <div class="cover-font-controls">
+                <select class="cover-font-family-select" id="cover-title-font-family">
+                    <option value="'Noto Serif SC', serif">宋体</option>
+                    <option value="'Noto Sans SC', sans-serif">黑体</option>
+                    <option value="'Source Han Serif CN VF', serif">思源宋体</option>
+                    <option value="'Huiwen-mincho', serif">汇文明朝体</option>
+                    <option value="'Douyin Sans', sans-serif">抖音美好体</option>
+                    <option value="'程荣光刻楷', serif">程荣光刻楷</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-title-font-size">
+                    <option value="2em">小</option>
+                    <option value="2.5em" selected>中</option>
+                    <option value="3em">大</option>
+                    <option value="3.5em">特大</option>
+                </select>
+                
+                <select class="cover-font-weight-select" id="cover-title-font-weight">
+                    <option value="400">细</option>
+                    <option value="500">中等</option>
+                    <option value="700" selected>粗体</option>
+                </select>
+                
+                <select class="cover-text-align-select" id="cover-title-text-align">
+                    <option value="left">左对齐</option>
+                    <option value="center" selected>居中</option>
+                    <option value="right">右对齐</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-title-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">副标题</div>
+            <input type="text" class="cover-input" id="cover-subtitle-input" placeholder="输入副标题..." value="一键生成精美小红书风格卡片">
+            
+            <div class="cover-font-controls">
+                <select class="cover-font-family-select" id="cover-subtitle-font-family">
+                    <option value="'Noto Serif SC', serif">宋体</option>
+                    <option value="'Noto Sans SC', sans-serif" selected>黑体</option>
+                    <option value="'Source Han Serif CN VF', serif">思源宋体</option>
+                    <option value="'Huiwen-mincho', serif">汇文明朝体</option>
+                    <option value="'Douyin Sans', sans-serif">抖音美好体</option>
+                    <option value="'程荣光刻楷', serif">程荣光刻楷</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-subtitle-font-size">
+                    <option value="1em">小</option>
+                    <option value="1.2em" selected>中</option>
+                    <option value="1.5em">大</option>
+                </select>
+                
+                <select class="cover-font-weight-select" id="cover-subtitle-font-weight">
+                    <option value="300">细</option>
+                    <option value="400" selected>常规</option>
+                    <option value="500">中等</option>
+                    <option value="700">粗体</option>
+                </select>
+                
+                <select class="cover-text-align-select" id="cover-subtitle-text-align">
+                    <option value="left">左对齐</option>
+                    <option value="center" selected>居中</option>
+                    <option value="right">右对齐</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-subtitle-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">图标</div>
+            <div class="cover-font-controls">
+                <select class="cover-icon-select" id="cover-icon-select">
+                    <option value="fa-star">星星</option>
+                    <option value="fa-heart">爱心</option>
+                    <option value="fa-fire">火焰</option>
+                    <option value="fa-bolt">闪电</option>
+                    <option value="fa-crown">皇冠</option>
+                    <option value="fa-gem">宝石</option>
+                    <option value="fa-magic">魔法</option>
+                    <option value="fa-sun">太阳</option>
+                    <option value="fa-moon">月亮</option>
+                    <option value="fa-smile">笑脸</option>
+                    <option value="fa-thumbs-up">点赞</option>
+                    <option value="fa-camera">相机</option>
+                    <option value="fa-palette">调色板</option>
+                    <option value="fa-music">音乐</option>
+                    <option value="fa-book">书籍</option>
+                    <option value="fa-quote-left">引用</option>
+                    <option value="fa-calendar-alt">日历</option>
+                    <option value="fa-lightbulb">灵感</option>
+                    <option value="fa-feather-alt">羽毛笔</option>
+                    <option value="fa-pen-fancy">钢笔</option>
+                    <option value="fa-none" selected>无图标</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-icon-size">
+                    <option value="2em">小</option>
+                    <option value="3em" selected>中</option>
+                    <option value="4em">大</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-icon-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">日期区域</div>
+            <div class="cover-date-controls">
+                <input type="checkbox" id="cover-show-date">
+                <label for="cover-show-date">显示日期</label>
+                
+                <input type="text" class="cover-input" id="cover-date-input" placeholder="输入日期..." value="">
+                
+                <select class="cover-font-family-select" id="cover-date-font-family">
+                    <option value="'Noto Serif SC', serif">宋体</option>
+                    <option value="'Noto Sans SC', sans-serif" selected>黑体</option>
+                    <option value="'Douyin Sans'">抖音美好体</option>
+                    <option value="'程荣光刻楷'">刻楷</option>
+                    <option value="'Huiwen-mincho'">明朝体</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-date-size">
+                    <option value="0.8em">小</option>
+                    <option value="1em" selected>中</option>
+                    <option value="1.2em">大</option>
+                </select>
+                
+                <select class="cover-font-weight-select" id="cover-date-font-weight">
+                    <option value="normal">常规</option>
+                    <option value="bold" selected>粗体</option>
+                </select>
+                
+                <select class="cover-text-align-select" id="cover-date-text-align">
+                    <option value="left">左对齐</option>
+                    <option value="center">居中</option>
+                    <option value="right" selected>右对齐</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-date-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">作者信息</div>
+            <div class="cover-author-controls">
+                <input type="checkbox" id="cover-show-author">
+                <label for="cover-show-author">显示作者</label>
+                
+                <input type="text" class="cover-input" id="cover-author-input" placeholder="输入作者名称..." value="">
+                
+                <select class="cover-font-family-select" id="cover-author-font-family">
+                    <option value="'Noto Serif SC', serif">宋体</option>
+                    <option value="'Noto Sans SC', sans-serif" selected>黑体</option>
+                    <option value="'Douyin Sans'">抖音美好体</option>
+                    <option value="'程荣光刻楷'">刻楷</option>
+                    <option value="'Huiwen-mincho'">明朝体</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-author-size">
+                    <option value="0.8em">小</option>
+                    <option value="1em" selected>中</option>
+                    <option value="1.2em">大</option>
+                </select>
+                
+                <select class="cover-font-weight-select" id="cover-author-font-weight">
+                    <option value="normal">常规</option>
+                    <option value="bold" selected>粗体</option>
+                </select>
+                
+                <select class="cover-text-align-select" id="cover-author-text-align">
+                    <option value="left">左对齐</option>
+                    <option value="center">居中</option>
+                    <option value="right" selected>右对齐</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-author-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section">
+            <div class="cover-editor-section-title">引用区块</div>
+            <input type="text" class="cover-input" id="cover-quote-input" placeholder="输入引用文字..." value="">
+            
+            <div class="cover-font-controls">
+                <select class="cover-font-family-select" id="cover-quote-font-family">
+                    <option value="'Noto Serif SC', serif" selected>宋体</option>
+                    <option value="'Noto Sans SC', sans-serif">黑体</option>
+                    <option value="'Source Han Serif CN VF', serif">思源宋体</option>
+                    <option value="'Huiwen-mincho', serif">汇文明朝体</option>
+                    <option value="'Douyin Sans', sans-serif">抖音美好体</option>
+                    <option value="'程荣光刻楷', serif">程荣光刻楷</option>
+                </select>
+                
+                <select class="cover-font-size-select" id="cover-quote-font-size">
+                    <option value="0.9em">小</option>
+                    <option value="1.1em" selected>中</option>
+                    <option value="1.3em">大</option>
+                </select>
+                
+                <select class="cover-font-weight-select" id="cover-quote-font-weight">
+                    <option value="300">细</option>
+                    <option value="400" selected>常规</option>
+                    <option value="500">中等</option>
+                    <option value="700">粗体</option>
+                </select>
+                
+                <input type="color" class="cover-color-picker" id="cover-quote-color" value="#ffffff">
+            </div>
+        </div>
+        
+        <div class="cover-editor-section" id="cover-bg-color-section">
+            <div class="cover-editor-section-title">封面背景颜色</div>
+            <div class="cover-bg-controls">
+                <div class="cover-bg-type">
+                    <input type="radio" id="cover-bg-solid" name="cover-bg-type" value="solid" checked>
+                    <label for="cover-bg-solid">纯色背景</label>
+                    <input type="radio" id="cover-bg-gradient" name="cover-bg-type" value="gradient">
+                    <label for="cover-bg-gradient">渐变背景</label>
+                </div>
+                
+                <div id="cover-solid-bg-controls">
+                    <input type="color" class="cover-color-picker" id="cover-bg-color" value="#1e293b">
+                    <label for="cover-bg-color">背景颜色</label>
+                    <input type="range" id="cover-bg-opacity" min="0" max="1" step="0.1" value="1">
+                    <label for="cover-bg-opacity">不透明度: <span id="cover-bg-opacity-value">100%</span></label>
+                </div>
+                
+                <div id="cover-gradient-bg-controls" style="display:none;">
+                    <div class="gradient-colors">
+                        <input type="color" class="cover-color-picker" id="cover-gradient-color1" value="#1e293b">
+                        <label for="cover-gradient-color1">颜色1</label>
+                        <input type="color" class="cover-color-picker" id="cover-gradient-color2" value="#4a5568">
+                        <label for="cover-gradient-color2">颜色2</label>
+                    </div>
+                    <select id="cover-gradient-direction">
+                        <option value="to right">从左到右</option>
+                        <option value="to bottom">从上到下</option>
+                        <option value="to bottom right">左上到右下</option>
+                        <option value="to bottom left">右上到左下</option>
+                        <option value="circle">径向渐变</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cover-preview">
+            <div class="cover-card cover-style-1" id="cover-preview-card">
+                <i class="fas fa-none cover-icon" id="cover-icon-preview"></i>
+                <div class="cover-title" id="cover-title-preview">小红书卡片生成器</div>
+                <div class="cover-subtitle" id="cover-subtitle-preview">一键生成精美小红书风格卡片</div>
+            </div>
+        </div>
+        
+        <div class="cover-actions">
+            <button class="cover-action-btn" id="cancel-cover-btn">取消</button>
+            <button class="cover-action-btn primary" id="save-cover-btn">
+                <i class="fas fa-save"></i> 保存封面
+            </button>
+        </div>
     </div>
 
     <div class="toolbar">
@@ -616,6 +2601,9 @@
             <button class="style-btn" onclick="switchStyle('sunset')">日落</button>
             <button class="style-btn" onclick="switchStyle('cosmos')">宇宙</button>
             <button class="style-btn" onclick="toggleTextAlign()"><i class="fas fa-align-left" id="align-icon"></i></button>
+            <button class="style-btn" onclick="openCoverEditor()">
+                <i class="fas fa-image"></i> 创建封面
+            </button>
             <button class="download-all-btn" onclick="downloadAllCards()">
                 <i class="fas fa-download"></i> 下载全部卡片
             </button>
@@ -637,6 +2625,8 @@
         const maxCardHeight = 373;
         let currentStyle = 'default';
         let currentTextAlign = 'left'; // 添加文本对齐方式变量
+        let coverCard = null; // 存储封面卡片的引用
+        let currentCoverStyle = '1'; // 当前封面样式
 
         marked.setOptions({
             breaks: true,
@@ -953,16 +2943,32 @@
         function switchStyle(style) {
             currentStyle = style;
             document.querySelectorAll('.card').forEach(card => {
-                card.className = `card ${style}`;
-                const iconBox = card.querySelector('.icon-box');
-                iconBox.style.background = getIconGradient(style);
-                card.querySelector('.icon').className = `icon fas ${getStyleIcon(style)}`;
+                // 检查是否为封面卡片（没有card-header的卡片）
+                const isCustomCover = !card.querySelector('.card-header') && card.querySelector('.cover-card');
                 
-                // 保持标题的字号和对齐方式
-                const title = card.querySelector('h2');
-                if (title) {
-                    title.style.fontSize = `${currentFontSize * 1.2}px`;
-                    title.style.textAlign = currentTextAlign;
+                if (isCustomCover) {
+                    // 对于封面卡片，保留其原有的cover-style-*类
+                    const coverStyleClass = Array.from(card.classList).find(cls => cls.startsWith('cover-style-'));
+                    card.className = `card ${coverStyleClass || ''} ${style}`;
+                } else {
+                    // 对于普通卡片，正常更新样式
+                    card.className = `card ${style}`;
+                    const iconBox = card.querySelector('.icon-box');
+                    if (iconBox) {
+                        iconBox.style.background = getIconGradient(style);
+                    }
+                    
+                    const icon = card.querySelector('.icon');
+                    if (icon) {
+                        icon.className = `icon fas ${getStyleIcon(style)}`;
+                    }
+                    
+                    // 保持标题的字号和对齐方式
+                    const title = card.querySelector('h2');
+                    if (title) {
+                        title.style.fontSize = `${currentFontSize * 1.2}px`;
+                        title.style.textAlign = currentTextAlign;
+                    }
                 }
             });
         }
@@ -1029,18 +3035,22 @@
         }
 
         function downloadCard(card) {
-            // 临时隐藏下载按钮
+            // 临时隐藏下载按钮和删除按钮
             const downloadBtn = card.querySelector('.download-btn');
+            const deleteBtn = card.querySelector('.delete-btn');
             downloadBtn.style.display = 'none';
+            if (deleteBtn) deleteBtn.style.display = 'none';
             
             html2canvas(card, {
                 useCORS: true,
                 scale: 4,
                 backgroundColor: null,
                 onclone: function(clonedDoc) {
-                    // 在克隆的文档中也隐藏下载按钮
+                    // 在克隆的文档中也隐藏下载按钮和删除按钮
                     const clonedBtn = clonedDoc.querySelector('.download-btn');
+                    const clonedDeleteBtn = clonedDoc.querySelector('.delete-btn');
                     if (clonedBtn) clonedBtn.style.display = 'none';
+                    if (clonedDeleteBtn) clonedDeleteBtn.style.display = 'none';
                     
                     // 确保克隆文档中的标题样式正确
                     const headings = clonedDoc.querySelectorAll('.text-content h1, .text-content h2, .text-content h3, .text-content h4, .text-content h5, .text-content h6');
@@ -1067,8 +3077,9 @@
                 link.href = canvas.toDataURL();
                 link.click();
                 
-                // 恢复下载按钮显示
+                // 恢复下载按钮和删除按钮显示
                 downloadBtn.style.display = 'grid';
+                if (deleteBtn) deleteBtn.style.display = 'flex';
             });
         }
 
@@ -1180,6 +3191,693 @@
                     }, 3000);
                 }
             });
+        }
+        
+        // 封面编辑器相关函数
+        function openCoverEditor() {
+            const coverEditor = document.getElementById('cover-editor');
+            coverEditor.classList.add('active');
+            
+            // 滚动到编辑器位置
+            coverEditor.scrollIntoView({ behavior: 'smooth' });
+            
+            // 初始化封面样式选择器
+            initCoverStyleSelector();
+            
+            // 初始化封面预览更新
+            updateCoverPreview();
+        }
+        
+        function initCoverStyleSelector() {
+            const styleItems = document.querySelectorAll('.cover-style-item');
+            
+            // 移除所有active类
+            styleItems.forEach(item => {
+                item.classList.remove('active');
+                
+                // 添加点击事件
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    styleItems.forEach(i => i.classList.remove('active'));
+                    
+                    // 添加active类到当前项
+                    this.classList.add('active');
+                    
+                    // 更新当前封面样式
+                    currentCoverStyle = this.getAttribute('data-style');
+                    
+                    // 自动选择样式选项
+                    document.getElementById('cover-bg-style-option').checked = true;
+                    document.getElementById('cover-bg-color-section').style.display = 'none';
+                    document.getElementById('cover-styles-section').style.display = 'block';
+                    
+                    // 更新封面预览
+                    updateCoverPreview();
+                });
+            });
+            
+            // 默认选中第一个样式
+            styleItems[0].classList.add('active');
+            currentCoverStyle = '11';
+        }
+        
+        function updateCoverPreview() {
+            const previewCard = document.getElementById('cover-preview-card');
+            const titlePreview = document.getElementById('cover-title-preview');
+            const subtitlePreview = document.getElementById('cover-subtitle-preview');
+            const iconPreview = document.getElementById('cover-icon-preview');
+            
+            // 更新标题
+            const titleInput = document.getElementById('cover-title-input');
+            titlePreview.textContent = titleInput.value;
+            
+            // 更新标题样式
+            const titleFontFamily = document.getElementById('cover-title-font-family');
+            const titleFontSize = document.getElementById('cover-title-font-size');
+            const titleFontWeight = document.getElementById('cover-title-font-weight');
+            const titleTextAlign = document.getElementById('cover-title-text-align');
+            const titleColor = document.getElementById('cover-title-color');
+            
+            titlePreview.style.fontFamily = titleFontFamily.value;
+            titlePreview.style.fontSize = titleFontSize.value;
+            titlePreview.style.fontWeight = titleFontWeight.value;
+            titlePreview.style.textAlign = titleTextAlign.value;
+            titlePreview.style.color = titleColor.value;
+            
+            // 更新副标题
+            const subtitleInput = document.getElementById('cover-subtitle-input');
+            subtitlePreview.textContent = subtitleInput.value;
+            
+            // 更新副标题样式
+            const subtitleFontFamily = document.getElementById('cover-subtitle-font-family');
+            const subtitleFontSize = document.getElementById('cover-subtitle-font-size');
+            const subtitleFontWeight = document.getElementById('cover-subtitle-font-weight');
+            const subtitleTextAlign = document.getElementById('cover-subtitle-text-align');
+            const subtitleColor = document.getElementById('cover-subtitle-color');
+            
+            subtitlePreview.style.fontFamily = subtitleFontFamily.value;
+            subtitlePreview.style.fontSize = subtitleFontSize.value;
+            subtitlePreview.style.fontWeight = subtitleFontWeight.value;
+            subtitlePreview.style.textAlign = subtitleTextAlign.value;
+            subtitlePreview.style.color = subtitleColor.value;
+            
+            // 更新图标
+            const iconSelect = document.getElementById('cover-icon-select');
+            const iconSize = document.getElementById('cover-icon-size');
+            const iconColor = document.getElementById('cover-icon-color');
+            
+            if (iconSelect.value === 'fa-none') {
+                iconPreview.style.display = 'none';
+            } else {
+                iconPreview.style.display = 'block';
+                iconPreview.className = `fas ${iconSelect.value} cover-icon`;
+                iconPreview.style.fontSize = iconSize.value;
+                iconPreview.style.color = iconColor.value;
+            }
+            
+            // 检查主背景类型选择（颜色或样式）
+            const mainBgType = document.querySelector('input[name="cover-bg-type-main"]:checked').value;
+            
+            if (mainBgType === 'color') {
+                // 使用背景颜色
+                const bgType = document.querySelector('input[name="cover-bg-type"]:checked').value;
+                
+                if (bgType === 'solid') {
+                    const bgColor = document.getElementById('cover-bg-color').value;
+                    const bgOpacity = document.getElementById('cover-bg-opacity').value;
+                    const rgba = hexToRgba(bgColor, bgOpacity);
+                    previewCard.style.background = rgba;
+                } else if (bgType === 'gradient') {
+                    const color1 = document.getElementById('cover-gradient-color1').value;
+                    const color2 = document.getElementById('cover-gradient-color2').value;
+                    const direction = document.getElementById('cover-gradient-direction').value;
+                    
+                    if (direction === 'circle') {
+                        previewCard.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
+                    } else {
+                        previewCard.style.background = `linear-gradient(${direction}, ${color1}, ${color2})`;
+                    }
+                }
+                
+                // 移除样式类，只保留基本类
+                previewCard.className = 'cover-card';
+            } else {
+                // 使用封面样式
+                // 保持当前封面样式的类名
+                previewCard.className = `cover-card cover-style-${currentCoverStyle}`;
+                // 清除可能设置的背景样式
+                previewCard.style.background = '';
+            }
+            
+            // 更新引用区块
+            const quoteInput = document.getElementById('cover-quote-input');
+            // 检查预览卡片中是否已有引用元素
+            let quotePreview = previewCard.querySelector('.cover-quote');
+            
+            if (quoteInput.value.trim() !== '') {
+                // 如果有引用内容但没有引用元素，则创建一个
+                if (!quotePreview) {
+                    quotePreview = document.createElement('div');
+                    quotePreview.className = 'cover-quote';
+                    // 将引用元素插入到标题和副标题之间
+                    previewCard.insertBefore(quotePreview, subtitlePreview);
+                }
+                
+                // 更新引用内容和样式
+                quotePreview.textContent = quoteInput.value;
+                const quoteFontFamily = document.getElementById('cover-quote-font-family');
+                const quoteFontSize = document.getElementById('cover-quote-font-size');
+                const quoteFontWeight = document.getElementById('cover-quote-font-weight');
+                const quoteColor = document.getElementById('cover-quote-color');
+                
+                quotePreview.style.fontFamily = quoteFontFamily.value;
+                quotePreview.style.fontSize = quoteFontSize.value;
+                quotePreview.style.fontWeight = quoteFontWeight.value;
+                quotePreview.style.color = quoteColor.value;
+                quotePreview.style.fontStyle = 'italic';
+                quotePreview.style.textAlign = 'center';
+                quotePreview.style.padding = '10px 15px';
+                quotePreview.style.margin = '15px 0';
+                quotePreview.style.borderLeft = '3px solid ' + quoteColor.value;
+                quotePreview.style.backgroundColor = 'rgba(255,255,255,0.1)';
+                quotePreview.style.width = 'calc(100% - 30px)';
+                quotePreview.style.boxSizing = 'border-box';
+                quotePreview.style.position = 'relative';
+                quotePreview.style.zIndex = '1';
+                quotePreview.style.display = 'block';
+            } else if (quotePreview) {
+                // 如果没有引用内容但有引用元素，则移除它
+                previewCard.removeChild(quotePreview);
+            }
+            
+            // 更新作者信息
+            const showAuthor = document.getElementById('cover-show-author').checked;
+            const authorInput = document.getElementById('cover-author-input');
+            
+            // 检查预览卡片中是否已有作者元素
+            let authorPreview = previewCard.querySelector('.cover-author');
+            
+            if (showAuthor && authorInput.value.trim() !== '') {
+                // 如果显示作者且有作者内容但没有作者元素，则创建一个
+                if (!authorPreview) {
+                    authorPreview = document.createElement('div');
+                    authorPreview.className = 'cover-author';
+                    // 将作者元素添加到预览卡片中
+                    previewCard.appendChild(authorPreview);
+                }
+                
+                // 更新作者内容和样式
+                authorPreview.textContent = authorInput.value;
+                const authorFontFamily = document.getElementById('cover-author-font-family');
+                const authorSize = document.getElementById('cover-author-size');
+                const authorFontWeight = document.getElementById('cover-author-font-weight');
+                const authorColor = document.getElementById('cover-author-color');
+                
+                authorPreview.style.fontFamily = authorFontFamily.value;
+                authorPreview.style.fontSize = authorSize.value;
+                authorPreview.style.fontWeight = authorFontWeight.value;
+                authorPreview.style.color = authorColor.value;
+                authorPreview.style.position = 'absolute';
+                authorPreview.style.bottom = '15px';
+                authorPreview.style.zIndex = '1';
+                authorPreview.style.display = 'block';
+                
+                // 应用作者文本对齐方式
+                const authorTextAlign = document.getElementById('cover-author-text-align');
+                authorPreview.style.textAlign = authorTextAlign.value;
+                
+                // 根据对齐方式调整位置
+                if (authorTextAlign.value === 'left') {
+                    authorPreview.style.left = '20px';
+                    authorPreview.style.right = 'auto';
+                } else if (authorTextAlign.value === 'center') {
+                    authorPreview.style.left = '0';
+                    authorPreview.style.right = '0';
+                    authorPreview.style.width = '100%';
+                } else { // right
+                    authorPreview.style.right = '20px';
+                    authorPreview.style.left = 'auto';
+                }
+            } else if (authorPreview) {
+                // 如果不显示作者或没有作者内容但有作者元素，则移除它
+                previewCard.removeChild(authorPreview);
+            }
+            
+            // 更新日期显示
+            const showDate = document.getElementById('cover-show-date').checked;
+            const dateInput = document.getElementById('cover-date-input');
+            
+            // 检查预览卡片中是否已有日期元素
+            let datePreview = previewCard.querySelector('.cover-date');
+            
+            if (showDate && dateInput.value.trim() !== '') {
+                // 如果显示日期且有日期内容但没有日期元素，则创建一个
+                if (!datePreview) {
+                    datePreview = document.createElement('div');
+                    datePreview.className = 'cover-date';
+                    // 将日期元素添加到预览卡片中
+                    previewCard.appendChild(datePreview);
+                }
+                
+                // 更新日期内容和样式
+                datePreview.textContent = dateInput.value;
+                const dateFontFamily = document.getElementById('cover-date-font-family');
+                const dateSize = document.getElementById('cover-date-size');
+                const dateFontWeight = document.getElementById('cover-date-font-weight');
+                const dateColor = document.getElementById('cover-date-color');
+                
+                datePreview.style.fontFamily = dateFontFamily.value;
+                datePreview.style.fontSize = dateSize.value;
+                datePreview.style.fontWeight = dateFontWeight.value;
+                datePreview.style.color = dateColor.value;
+                datePreview.style.position = 'absolute';
+                datePreview.style.zIndex = '1';
+                datePreview.style.display = 'block';
+                
+                // 根据封面样式调整日期位置
+                if (['11', '13', '14', '15', '25'].includes(currentCoverStyle)) {
+                    datePreview.style.top = '20px';
+                    datePreview.style.right = '20px';
+                } else if (['12', '16', '17', '18', '23'].includes(currentCoverStyle)) {
+                    datePreview.style.top = '20px';
+                    datePreview.style.left = '20px';
+                } else {
+                    datePreview.style.bottom = '20px';
+                    datePreview.style.right = '20px';
+                }
+            } else if (datePreview) {
+                // 如果不显示日期或没有日期内容但有日期元素，则移除它
+                previewCard.removeChild(datePreview);
+            }
+            
+            // 更新封面样式，同时应用当前整体样式
+            previewCard.className = `cover-card cover-style-${currentCoverStyle} ${currentStyle}`;
+        }
+        
+        function createCoverCard() {
+            // 创建封面卡片
+            const card = document.createElement('div');
+            card.className = `card cover-style-${currentCoverStyle}`;
+            card.style.height = '373px';
+            card.style.width = '280px';
+            card.style.position = 'relative';
+            
+            const cardContent = document.createElement('div');
+            cardContent.className = 'card-content cover-card';
+            cardContent.style.display = 'flex';
+            cardContent.style.flexDirection = 'column';
+            cardContent.style.justifyContent = 'center';
+            cardContent.style.alignItems = 'center';
+            cardContent.style.padding = '20px';
+            cardContent.style.height = '100%';
+            cardContent.style.boxSizing = 'border-box';
+            cardContent.style.position = 'relative';
+            
+            // 检查主背景类型选择（颜色或样式）
+            const mainBgType = document.querySelector('input[name="cover-bg-type-main"]:checked').value;
+            
+            if (mainBgType === 'color') {
+                // 使用背景颜色
+                const bgType = document.querySelector('input[name="cover-bg-type"]:checked').value;
+                
+                if (bgType === 'solid') {
+                    const bgColor = document.getElementById('cover-bg-color').value;
+                    const bgOpacity = document.getElementById('cover-bg-opacity').value;
+                    const rgba = hexToRgba(bgColor, bgOpacity);
+                    cardContent.style.background = rgba;
+                } else if (bgType === 'gradient') {
+                    const color1 = document.getElementById('cover-gradient-color1').value;
+                    const color2 = document.getElementById('cover-gradient-color2').value;
+                    const direction = document.getElementById('cover-gradient-direction').value;
+                    
+                    if (direction === 'circle') {
+                        cardContent.style.background = `radial-gradient(circle, ${color1}, ${color2})`;
+                    } else {
+                        cardContent.style.background = `linear-gradient(${direction}, ${color1}, ${color2})`;
+                    }
+                }
+                
+                // 应用当前整体样式，但不使用封面样式类
+                card.className = `card ${currentStyle}`; // 添加当前整体样式
+            } else {
+                // 使用封面样式
+                card.className = `card cover-style-${currentCoverStyle} ${currentStyle}`;
+                // 不设置背景为透明，让CSS样式生效
+                cardContent.style.background = '';
+                // 确保card-content也有相同的样式类，以便应用相同的CSS样式
+                cardContent.className = `card-content cover-card cover-style-${currentCoverStyle}`;
+            }
+            
+            // 设置特定封面样式的数据属性（用于镜像反射效果）
+            if (currentCoverStyle === '27') {
+                cardContent.setAttribute('data-mirror-effect', 'true');
+            }
+            
+            // 获取封面元素
+            const titlePreview = document.getElementById('cover-title-preview');
+            const subtitlePreview = document.getElementById('cover-subtitle-preview');
+            const iconPreview = document.getElementById('cover-icon-preview');
+            
+            // 添加日期区域
+            const showDate = document.getElementById('cover-show-date').checked;
+            if (showDate) {
+                const dateElement = document.createElement('div');
+                dateElement.className = 'cover-date';
+                
+                // 获取日期内容和样式
+                const dateInput = document.getElementById('cover-date-input');
+                const dateFontFamily = document.getElementById('cover-date-font-family').value;
+                const dateSize = document.getElementById('cover-date-size').value;
+                const dateFontWeight = document.getElementById('cover-date-font-weight').value;
+                const dateColor = document.getElementById('cover-date-color').value;
+                
+                // 使用用户输入的日期文本
+                dateElement.textContent = dateInput.value;
+                dateElement.style.fontFamily = dateFontFamily;
+                dateElement.style.fontSize = dateSize;
+                dateElement.style.fontWeight = dateFontWeight;
+                dateElement.style.color = dateColor;
+                dateElement.style.position = 'absolute';
+                
+                // 根据封面样式调整日期位置
+                if (['11', '13', '14', '15', '25'].includes(currentCoverStyle)) {
+                    dateElement.style.top = '20px';
+                    dateElement.style.right = '20px';
+                } else if (['12', '16', '17', '18', '23'].includes(currentCoverStyle)) {
+                    dateElement.style.top = '20px';
+                    dateElement.style.left = '20px';
+                } else {
+                    dateElement.style.bottom = '20px';
+                    dateElement.style.right = '20px';
+                }
+                
+                cardContent.appendChild(dateElement);
+            }
+            
+            // 添加引用区块
+            const quoteInput = document.getElementById('cover-quote-input');
+            if (quoteInput.value.trim() !== '') {
+                const quoteElement = document.createElement('div');
+                quoteElement.className = 'cover-quote';
+                quoteElement.textContent = quoteInput.value;
+                
+                // 获取引用样式
+                const quoteFontFamily = document.getElementById('cover-quote-font-family').value;
+                const quoteFontSize = document.getElementById('cover-quote-font-size').value;
+                const quoteFontWeight = document.getElementById('cover-quote-font-weight').value;
+                const quoteColor = document.getElementById('cover-quote-color').value;
+                
+                quoteElement.style.fontFamily = quoteFontFamily;
+                quoteElement.style.fontSize = quoteFontSize;
+                quoteElement.style.fontWeight = quoteFontWeight;
+                quoteElement.style.color = quoteColor;
+                quoteElement.style.fontStyle = 'italic';
+                quoteElement.style.textAlign = 'center';
+                quoteElement.style.padding = '10px 15px';
+                quoteElement.style.margin = '15px 0';
+                quoteElement.style.borderLeft = '3px solid ' + quoteColor;
+                quoteElement.style.backgroundColor = 'rgba(255,255,255,0.1)';
+                quoteElement.style.width = 'calc(100% - 30px)';
+                quoteElement.style.boxSizing = 'border-box';
+                quoteElement.style.position = 'relative';
+                quoteElement.style.zIndex = '1';
+                
+                cardContent.appendChild(quoteElement);
+            }
+            
+            // 创建图标
+            if (iconPreview.style.display !== 'none') {
+                const icon = document.createElement('i');
+                icon.className = iconPreview.className;
+                icon.style.fontSize = iconPreview.style.fontSize;
+                icon.style.color = iconPreview.style.color;
+                icon.style.marginBottom = '20px';
+                icon.style.position = 'relative';
+                icon.style.zIndex = '1';
+                cardContent.appendChild(icon);
+            }
+            
+            // 创建标题
+            const title = document.createElement('div');
+            title.textContent = titlePreview.textContent;
+            title.style.fontFamily = titlePreview.style.fontFamily;
+            title.style.fontSize = titlePreview.style.fontSize;
+            title.style.fontWeight = titlePreview.style.fontWeight;
+            title.style.textAlign = titlePreview.style.textAlign;
+            title.style.color = titlePreview.style.color;
+            title.style.marginBottom = '15px';
+            title.style.width = '100%';
+            title.style.lineHeight = '1.3';
+            title.style.position = 'relative';
+            title.style.zIndex = '1';
+            
+            // 为镜像反射效果设置数据属性
+            if (currentCoverStyle === '27') {
+                title.setAttribute('data-text', titlePreview.textContent);
+            }
+            
+            cardContent.appendChild(title);
+            
+            // 创建副标题
+            const subtitle = document.createElement('div');
+            subtitle.textContent = subtitlePreview.textContent;
+            subtitle.style.fontFamily = subtitlePreview.style.fontFamily;
+            subtitle.style.fontSize = subtitlePreview.style.fontSize;
+            subtitle.style.fontWeight = subtitlePreview.style.fontWeight;
+            subtitle.style.textAlign = subtitlePreview.style.textAlign;
+            subtitle.style.color = subtitlePreview.style.color;
+            subtitle.style.width = '100%';
+            subtitle.style.lineHeight = '1.5';
+            subtitle.style.position = 'relative';
+            subtitle.style.zIndex = '1';
+            cardContent.appendChild(subtitle);
+            
+            // 添加作者信息
+            const showAuthor = document.getElementById('cover-show-author').checked;
+            if (showAuthor) {
+                const authorInput = document.getElementById('cover-author-input');
+                if (authorInput.value.trim() !== '') {
+                    const authorElement = document.createElement('div');
+                    authorElement.className = 'cover-author';
+                    authorElement.textContent = authorInput.value;
+                    
+                    // 获取作者样式
+                    const authorFontFamily = document.getElementById('cover-author-font-family').value;
+                    const authorSize = document.getElementById('cover-author-size').value;
+                    const authorFontWeight = document.getElementById('cover-author-font-weight').value;
+                    const authorColor = document.getElementById('cover-author-color').value;
+                    
+                    authorElement.style.fontFamily = authorFontFamily;
+                    authorElement.style.fontSize = authorSize;
+                    authorElement.style.fontWeight = authorFontWeight;
+                    authorElement.style.color = authorColor;
+                    authorElement.style.position = 'absolute';
+                    authorElement.style.bottom = '15px';
+                    authorElement.style.zIndex = '1';
+                    
+                    // 应用作者文本对齐方式
+                    const authorTextAlign = document.getElementById('cover-author-text-align');
+                    authorElement.style.textAlign = authorTextAlign.value;
+                    
+                    // 根据对齐方式调整位置
+                    if (authorTextAlign.value === 'left') {
+                        authorElement.style.left = '20px';
+                        authorElement.style.right = 'auto';
+                    } else if (authorTextAlign.value === 'center') {
+                        authorElement.style.left = '0';
+                        authorElement.style.right = '0';
+                        authorElement.style.width = '100%';
+                    } else { // right
+                        authorElement.style.right = '20px';
+                        authorElement.style.left = 'auto';
+                    }
+                    
+                    cardContent.appendChild(authorElement);
+                }
+            }
+            
+            // 添加下载按钮
+            const downloadBtn = document.createElement('div');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+            downloadBtn.onclick = () => downloadCard(card);
+            card.appendChild(downloadBtn);
+            
+            card.appendChild(cardContent);
+            
+            // 添加删除按钮
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            deleteBtn.style.position = 'absolute';
+            deleteBtn.style.top = '10px';
+            deleteBtn.style.right = '10px';
+            deleteBtn.style.backgroundColor = 'rgba(255, 107, 107, 0.8)';
+            deleteBtn.style.color = 'white';
+            deleteBtn.style.width = '30px';
+            deleteBtn.style.height = '30px';
+            deleteBtn.style.borderRadius = '50%';
+            deleteBtn.style.display = 'flex';
+            deleteBtn.style.justifyContent = 'center';
+            deleteBtn.style.alignItems = 'center';
+            deleteBtn.style.cursor = 'pointer';
+            deleteBtn.style.zIndex = '10';
+            deleteBtn.style.opacity = '0';
+            deleteBtn.style.transition = 'opacity 0.3s';
+            
+            // 鼠标悬停时显示删除按钮
+            card.addEventListener('mouseenter', () => {
+                deleteBtn.style.opacity = '1';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                deleteBtn.style.opacity = '0';
+            });
+            
+            // 点击删除按钮时移除卡片
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡
+                if (card.parentNode) {
+                    card.parentNode.removeChild(card);
+                }
+                if (coverCard === card) {
+                    coverCard = null;
+                }
+            });
+            
+            card.appendChild(deleteBtn);
+            
+            return card;
+        }
+        
+        function saveCover() {
+            // 创建封面卡片
+            const newCoverCard = createCoverCard();
+            
+            // 获取预览卡片的背景样式
+            const previewCard = document.getElementById('cover-preview-card');
+            const cardContent = newCoverCard.querySelector('.card-content');
+            
+            if (cardContent && previewCard) {
+                // 获取主背景类型选择（颜色或样式）
+                const mainBgType = document.querySelector('input[name="cover-bg-type-main"]:checked').value;
+                if (mainBgType === 'color') {
+                    // 使用自定义背景颜色
+                    cardContent.style.background = previewCard.style.background;
+                } else {
+                    // 使用封面样式时，不设置背景为透明，让CSS样式生效
+                    cardContent.style.background = '';
+                }
+                // 保留cover-style-*类，确保封面样式不被覆盖
+                const coverStyleClass = Array.from(previewCard.classList).find(cls => cls.startsWith('cover-style-'));
+                if (coverStyleClass) {
+                    cardContent.className = `card-content cover-card ${coverStyleClass} ${currentStyle}`;
+                    // 确保卡片也有相同的样式类
+                    newCoverCard.className = `card ${coverStyleClass} ${currentStyle}`;
+                } else {
+                    cardContent.className = `card-content cover-card ${currentStyle}`;
+                }
+            }
+            
+            // 创建一个容器来包装封面卡片
+            const coverCardContainer = document.createElement('div');
+            coverCardContainer.className = 'cover-card-container';
+            coverCardContainer.appendChild(newCoverCard);
+            
+            // 确保封面卡片的边框样式正确应用
+            newCoverCard.style.overflow = 'hidden'; // 确保边框圆角效果正确显示
+            
+            // 将封面卡片添加到卡片容器的最前面，而不是替换现有的
+            if (cardContainer.firstChild) {
+                cardContainer.insertBefore(coverCardContainer, cardContainer.firstChild);
+            } else {
+                cardContainer.appendChild(coverCardContainer);
+            }
+            
+            // 关闭封面编辑器
+            document.getElementById('cover-editor').classList.remove('active');
+            
+            // 更新全局封面卡片引用
+            coverCard = newCoverCard;
+        }
+        
+        // 初始化封面编辑器事件监听
+        // 辅助函数：将十六进制颜色转换为RGBA格式
+        function hexToRgba(hex, opacity = 1) {
+            hex = hex.replace('#', '');
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化封面编辑器的输入事件监听
+            const coverInputs = document.querySelectorAll('.cover-input, .cover-font-family-select, .cover-font-size-select, .cover-font-weight-select, .cover-text-align-select, .cover-color-picker, .cover-icon-select, #cover-date-input');
+            coverInputs.forEach(input => {
+                input.addEventListener('input', updateCoverPreview);
+            });
+            
+            // 背景颜色类型切换
+            document.getElementById('cover-bg-solid').addEventListener('change', function() {
+                document.getElementById('cover-solid-bg-controls').style.display = 'flex';
+                document.getElementById('cover-gradient-bg-controls').style.display = 'none';
+                updateCoverPreview();
+            });
+            
+            document.getElementById('cover-bg-gradient').addEventListener('change', function() {
+                document.getElementById('cover-solid-bg-controls').style.display = 'none';
+                document.getElementById('cover-gradient-bg-controls').style.display = 'flex';
+                updateCoverPreview();
+            });
+            
+            // 背景颜色控制
+            document.getElementById('cover-bg-color').addEventListener('input', updateCoverPreview);
+            document.getElementById('cover-bg-opacity').addEventListener('input', function() {
+                document.getElementById('cover-bg-opacity-value').textContent = Math.round(this.value * 100) + '%';
+                updateCoverPreview();
+            });
+            
+            // 渐变背景控制
+            document.getElementById('cover-gradient-color1').addEventListener('input', updateCoverPreview);
+            document.getElementById('cover-gradient-color2').addEventListener('input', updateCoverPreview);
+            document.getElementById('cover-gradient-direction').addEventListener('change', updateCoverPreview);
+            
+            // 封面背景类型主选项（颜色/样式）切换
+            document.getElementById('cover-bg-color-option').addEventListener('change', function() {
+                document.getElementById('cover-bg-color-section').style.display = 'block';
+                document.getElementById('cover-styles-section').style.display = 'none';
+                updateCoverPreview();
+            });
+            
+            document.getElementById('cover-bg-style-option').addEventListener('change', function() {
+                document.getElementById('cover-bg-color-section').style.display = 'none';
+                document.getElementById('cover-styles-section').style.display = 'block';
+                updateCoverPreview();
+            });
+            
+            // 保存封面按钮
+            document.getElementById('save-cover-btn').addEventListener('click', saveCover);
+            
+            // 取消按钮
+            document.getElementById('cancel-cover-btn').addEventListener('click', function() {
+                document.getElementById('cover-editor').classList.remove('active');
+            });
+        });
+        
+        // 打开封面编辑器
+        function openCoverEditor() {
+            const coverEditor = document.getElementById('cover-editor');
+            coverEditor.classList.add('active');
+            
+            // 滚动到编辑器位置
+            coverEditor.scrollIntoView({ behavior: 'smooth' });
+            
+            // 初始化封面样式选择器
+            initCoverStyleSelector();
+            
+            // 初始化封面预览更新
+            updateCoverPreview();
         }
     </script>
 </body>
